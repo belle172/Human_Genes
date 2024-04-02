@@ -8,7 +8,7 @@ Code file - puts gene symbols with no PubMed papers into uncharacterized_human_g
 Output text file - contains uncharacterized human protein coding gene symbols and any additional data retrieved. 
 
 ## protein-coding_gene.txt 
-Input text file - protein-coding_gene.txt is retrieved from HGNC and contains the current list of approved human protein coding genes. This file is created by running uncharacterized_genes.py, it does not need to be in the working directory before executing the code. 
+Input text file - protein-coding_gene.txt is retrieved from HGNC and contains the current list of approved human protein coding genes. This file is created by running uncharacterized_genes.py, it does not need to be in the working directory before executing the code. The protein-coding gene file can be found on the HGNC website at https://www.genenames.org/download/statistics-and-files/. 
 
 ## characterized_symbols_2024.txt 
 Input text file - contains gene symbols that were found to be in the title of at least one PubMed paper during the first run of uncharacterized_genes.py in 2024. 
