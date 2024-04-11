@@ -38,7 +38,8 @@ import os
 import requests 
 
 # =============================================================================
-# Retrieving HGNC file of all human-protein coding genes 
+# Retrieving HGNC file of all human protein-coding genes 
+# from https://www.genenames.org/download/statistics-and-files/
 # ============================================================================= 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
 	ftp = ftplib.FTP('ftp.ebi.ac.uk') 
@@ -92,7 +93,7 @@ results = get_results(endpoint_url, query) # includes duplicates
 
 
 # =============================================================================
-# create dictionary of genes with their data from HGNC and wikipedia 
+# Create dictionary of genes with their data from HGNC and wikipedia 
 # =============================================================================
 genes_dict = {} 
 
@@ -129,7 +130,7 @@ for result in results['results']['bindings']:
         try: # if this doesn't throw an error, the wikidata item has a wikipedia page 
             current_gene['wd_gene_item_article_link'] 
             genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
-    
+
         except KeyError: # the wikidata item doesn't have a gene wikipedia 
             try: # now check that the gene's protein also doesn't have a wikipedia page 
                 current_gene['wd_protein_item_article_link'] 
@@ -165,16 +166,18 @@ except FileNotFoundError:
     print('File listing characterized genes not found. The working directory is', os.getcwd(), 
           '\nIf you run the code, it will take several hours to retrieve the pubmed results for', 
           'all genes. Continue? [y/n]') 
-    # TODO: get confirmation input before proceeding with full pubmed retrieval 
-    newYear = True 
+
+    # Get confirmation input before proceeding with full pubmed retrieval 
+    if input() == 'y': 
+        newYear = True 
 
 # ============================================================================= 
 # Retrieve titles of pubmed papers for each gene symbol 
 # =============================================================================
 no_pubmeds = [] # list of gene HGNC IDs 
 no_pubmeds_dict = {} 
-prev = datetime.now() 
 partial_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=' 
+prev = datetime.now() 
 
 # For each gene, if its not in the list of characterized symbols from last time, retrieve titles 
 for gene in genes_dict: 
@@ -200,7 +203,7 @@ for gene in genes_dict:
 #       for gene in responses: if idlist not in response add to no_pubmeds 
 
 
-# create the list of characterized gene symbols 
+# If running full PubMed retrieval of all genes, create the list of characterized gene symbols 
 if newYear == True: 
     characterized_file = open(filename, 'w', encoding='utf-8') 
     for gene in genes_dict: 
@@ -216,7 +219,7 @@ output_data = {}
 
 process = ['locus_group', 'locus_type', 'status',                    # same for every gene 
            'agr', 'date_modified', 'gencc', 'location', 'wiki_bool', # duplicate of other data 
-           'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas',  # cleanup text and reorder 
+           'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup text and reorder 
 
            # fields omitted 
            'ena', 'rgd_id', 'vega_id', 'mane_select', 'mgd_id', 'entrez_id', 'iuphar', 'ucsc_id', 
