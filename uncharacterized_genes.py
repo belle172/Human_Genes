@@ -3,10 +3,10 @@
 Created Dec 13 2023 
 Python 3.10 
 @author: Jasper Bellefeuille - belle172@umn.edu 
+Repository: Human_Genes/uncharacterized_genes.py 
 
-This script, uncharacterized_genes.py, outputs a file, uncharacterized_human_genes.txt, listing 
-uncharacterized human protein-coding genes calculated based on data retrieved from HGNC, 
-Wikipedia, and PubMed. 
+This script outputs a file, uncharacterized_human_genes.txt, listing uncharacterized human 
+protein-coding genes calculated based on data retrieved from HGNC, Wikipedia, and PubMed. 
     The code retrieves from HGNC the regularly updated list of all human protein-coding genes, 
 retrieves from Wikipedia every english protein and gene wikidata item, and retrieves from pubmed 
 the titles of articles that contain a gene symbol. 
