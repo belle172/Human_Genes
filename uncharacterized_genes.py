@@ -2,13 +2,13 @@
 '''
 Created Dec 13 2023 
 Python 3.10 
-@author: Jasper Bellefeuille - belle172@umn.edu 
+Jasper Bellefeuille - belle172@umn.edu 
 Repository: Human_Genes/uncharacterized_genes.py 
 
 This script outputs a file, uncharacterized_human_genes.txt, listing uncharacterized human 
 protein-coding genes calculated based on data retrieved from HGNC, Wikipedia, and PubMed. 
     The code retrieves from HGNC the regularly updated list of all human protein-coding genes, 
-retrieves from Wikipedia every english protein and gene wikidata item, and retrieves from pubmed 
+retrieves from Wikipedia every english protein and gene wikidata item, and retrieves from PubMed 
 the titles of articles that contain a gene symbol. 
 
 Features of input data expected: 
@@ -51,12 +51,10 @@ def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-codi
 downloadGeneFile() 
 
 # =============================================================================
-# SQL query to retrieve wikidata genes and proteins 
+# SQL query retrieving all wikidata gene and protein items matching a HGNC 
+# protein-coding gene 
 # ============================================================================= 
-endpoint_url = "https://query.wikidata.org/sparql" # API endpoint with data to retrieve 
-
-# SQL wikidata query for retrieving all HGNC protein coding genes and their data 
-query = """SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?proteinLabel ?wd_gene_item_article_link ?wd_protein_item_article_link
+query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?proteinLabel ?wd_gene_item_article_link ?wd_protein_item_article_link
  {
    ?gene wdt:P31 wd:Q7187 .
    ?gene wdt:P703 wd:Q15978631 .
@@ -75,9 +73,10 @@ query = """SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?prote
  			    schema:isPartOf <https://en.wikipedia.org/> .
     }
    SERVICE wikibase:label { bd:serviceParam wikibase:language "en" } .
- }""" 
+ }''' 
 
-# function for calling wikipedia API with query 
+# Function for calling wikipedia API with query 
+#   string endpoint_url: the API endpoint with data to retrieve 
 def get_results(endpoint_url, query): 
 
     # example: user_agent = 'CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org)' 
@@ -89,7 +88,7 @@ def get_results(endpoint_url, query):
     return sparql.query().convert() 
 
 # returned lists of headers and values for all wikidata human protein and gene items 
-results = get_results(endpoint_url, query) # includes duplicates 
+results = get_results('https://query.wikidata.org/sparql', query) # includes duplicates 
 
 
 # =============================================================================
@@ -104,7 +103,7 @@ headers = HGNC_file.readline().strip().split('\t')
 for line in HGNC_file: 
     values = line.strip().split('\t') 
 
-    # make dictionary where the HGNC ID of each gene is the dictionary's keys 
+    # make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
     ID = values[0].lstrip('HGNC:') 
     genes_dict[ID] = {} 
     genes_dict[ID]['wiki_bool'] = False 
@@ -198,7 +197,8 @@ for gene in genes_dict:
             no_pubmeds.append(genes_dict[gene]['symbol']) 
             no_pubmeds_dict[gene] = genes_dict[gene] 
 
-# TODO: try to speed up code by splitting for loop into 
+# TODO: make a timestamp of how long full retrieval takes 
+#       try to speed up code by splitting for loop into 
 #       saving dictionary of responses[gene] = response.text every 0.34 seconds 
 #       for gene in responses: if idlist not in response add to no_pubmeds 
 
@@ -271,19 +271,20 @@ uncharacterized_file.close()
 # =============================================================================
 # FILE COMPARATOR 
 # ============================================================================= 
+# TODO: make a function so I can just comment out one line to skip this 
 shorter = open(os.getcwd() + '\\uncharacterized_human_genes.txt', encoding='utf-8') 
 shorter_matrix = '' 
 for line in shorter: 
-    shorter_matrix += line
+    shorter_matrix += line 
 shorter.close() 
 shorter_matrix = shorter_matrix.split('\n') 
 
 shorter_symbols = [] 
 for gene in shorter_matrix: 
     if gene != '': 
-        shorter_symbols.append(gene.split('\t')[0])
+        shorter_symbols.append(gene.split('\t')[0]) 
 
-longer = open(os.getcwd() + '\\uncharacterized_human_genes_02102024.txt', encoding='utf-8') 
+longer = open(os.getcwd() + '\\uncharacterized_human_genes_04102024.txt', encoding='utf-8') 
 longer_matrix = '' 
 for line in longer: 
     longer_matrix += line
