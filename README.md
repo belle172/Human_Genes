@@ -1,5 +1,5 @@
 # Human_Genes
-This repository contains the code and resulting output file for the approximate current list of uncharacterized human protein coding genes. The code gets the list of human protein coding genes from a regularly updated data file on the HGNC website, 'protein-coding_gene.txt'. For each gene symbol, if it is not in the title of any papers on PubMed, that gene is put into the output file 'uncharacterized_human_genes.txt'. 
+This repository contains the code and resulting output file for the approximate current list of uncharacterized human protein coding genes. The code gets the list of human protein coding genes from a regularly updated data file on the HGNC website, 'protein-coding_gene.txt'. For each gene symbol, if it is not in the title of any papers on PubMed, that gene is put into the output file 'uncharacterized_human_genes.txt'. PubMed papers can be manually searched online at https://pubmed.ncbi.nlm.nih.gov/?term=[gene]. 
 
 ## uncharacterized_genes.py 
 Code file - puts gene symbols with no PubMed papers into uncharacterized_human_genes.txt. 
