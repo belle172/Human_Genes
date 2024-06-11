@@ -15,7 +15,7 @@ Features of input data expected:
     1) Wikidata items whose HGNC ID is not in the data obtained from HGNC correspond to withdrawn 
        HGNC records. 
     2) Genes with a wikipedia page have a linked wikidata item. 
-    3) Wikidata items with a wikipedia page means the HGNC ID of that wikidata item is a gene with 
+    3) Wikidata items with a Wikipedia page means the HGNC ID of that wikidata item is a gene with 
        a wikipedia page. 
     4) A gene symbol being in the title of any pubmed papers means there is research on that gene. 
     5) Once added to the list of gene symbols with pubmed papers, that gene will not go back to 
