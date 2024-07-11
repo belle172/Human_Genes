@@ -197,10 +197,13 @@ for gene in genes_dict:
             no_pubmeds.append(genes_dict[gene]['symbol']) 
             no_pubmeds_dict[gene] = genes_dict[gene] 
 
+            # TODO: check for pubmed papers with the gene's previous gene symbol 
+
 # TODO: make a timestamp of how long full retrieval takes 
 #       try to speed up code by splitting for loop into 
 #       saving dictionary of responses[gene] = response.text every 0.34 seconds 
 #       for gene in responses: if idlist not in response add to no_pubmeds 
+
 
 
 # If running full PubMed retrieval of all genes, create the list of characterized gene symbols 
@@ -271,30 +274,24 @@ uncharacterized_file.close()
 # =============================================================================
 # FILE COMPARATOR 
 # ============================================================================= 
-# TODO: make a function so I can just comment out one line to skip this 
-shorter = open(os.getcwd() + '\\uncharacterized_human_genes.txt', encoding='utf-8') 
-shorter_matrix = '' 
-for line in shorter: 
-    shorter_matrix += line 
-shorter.close() 
-shorter_matrix = shorter_matrix.split('\n') 
+def get_list(filename): 
+    file = open(os.getcwd() + filename, encoding='utf-8') 
+    matrix = '' 
+    for line in file: matrix += line 
+    file.close() 
+    matrix = matrix.split('\n') 
+    matrix.pop(0) 
+    matrix.pop(0) 
 
-shorter_symbols = [] 
-for gene in shorter_matrix: 
-    if gene != '': 
-        shorter_symbols.append(gene.split('\t')[0]) 
+    symbols = [] 
+    for gene in matrix: 
+        if gene != '': 
+            symbols.append(gene.split('\t')[0]) 
+    
+    return symbols 
 
-longer = open(os.getcwd() + '\\uncharacterized_human_genes_04102024.txt', encoding='utf-8') 
-longer_matrix = '' 
-for line in longer: 
-    longer_matrix += line
-longer.close() 
-longer_matrix = longer_matrix.split('\n') 
-
-longer_symbols = [] 
-for gene in longer_matrix: 
-    if gene != '': 
-        longer_symbols.append(gene.split('\t')[0])
+shorter_symbols = get_list('\\uncharacterized_human_genes_07102024.txt') 
+longer_symbols = get_list('\\uncharacterized_human_genes_06102024.txt') 
 
 index = 0 
 for i in range(len(longer_symbols)): 
