@@ -13,20 +13,21 @@ the titles of articles that contain a gene symbol.
 
 Features of input data expected: 
     1) Wikidata items whose HGNC ID is not in the data obtained from HGNC correspond to withdrawn 
-       HGNC records. 
-    2) Genes with a wikipedia page have a linked wikidata item. 
+           HGNC records. 
+    2) Genes with a Wikipedia page have a linked wikidata item. 
     3) Wikidata items with a Wikipedia page means the HGNC ID of that wikidata item is a gene with 
-       a wikipedia page. 
-    4) A gene symbol being in the title of any pubmed papers means there is research on that gene. 
-    5) Once added to the list of gene symbols with pubmed papers, that gene will not go back to 
-       being uncharacterized. 
+           a Wikipedia page. 
+    4) A gene's gene symbol or previous gene symbol being in the title of any PubMed papers means 
+           there is research characterizing that gene. 
+    5) Once added to the list of gene symbols with PubMed papers, that gene will not go back to 
+           being uncharacterized. 
 
 Code for wikidata SQL query generated from https://w.wiki/8VAx, and some code taken from the 
-script for writing the wikipedia list of human genes, which can be found at https://w.wiki/8aYR 
+script for writing the Wikipedia list of human genes, which can be found at https://w.wiki/8aYR 
 
-To customize the wikipedia user-agent: https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent 
+To customize the Wikipedia user-agent: https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent 
 
-If you do not have the sparqlwrapper installed, run: pip install sparqlwrapper 
+If you do not have the SPARQLWrapper installed, run: pip install sparqlwrapper 
 https://rdflib.github.io/sparqlwrapper/ 
 ''' 
 
@@ -35,7 +36,7 @@ from datetime import datetime
 import ftplib 
 import io 
 import os 
-import requests 
+import requests # Allows sending HTTP requests to a web page 
 
 # =============================================================================
 # Retrieving HGNC file of all human protein-coding genes 
@@ -75,24 +76,24 @@ query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?prote
    SERVICE wikibase:label { bd:serviceParam wikibase:language "en" } .
  }''' 
 
-# Function for calling wikipedia API with query 
+# Function for calling Wikipedia API with query 
 #   string endpoint_url: the API endpoint with data to retrieve 
 def get_results(endpoint_url, query): 
 
     # example: user_agent = 'CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org)' 
-    user_agent = 'DysoticBot/0.0 (https://en.wikipedia.org/wiki/User:Dysotic)' 
+    user_agent = 'DysoticBot/0.0 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)' 
 
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent)
     sparql.setQuery(query)
-    sparql.setReturnFormat(JSON)
+    sparql.setReturnFormat(JSON) 
     return sparql.query().convert() 
 
-# returned lists of headers and values for all wikidata human protein and gene items 
+# Returned lists of headers and values for all wikidata human protein and gene items 
 results = get_results('https://query.wikidata.org/sparql', query) # includes duplicates 
 
 
 # =============================================================================
-# Create dictionary of genes with their data from HGNC and wikipedia 
+# Create dictionary of genes with their data from HGNC and Wikipedia 
 # =============================================================================
 genes_dict = {} 
 
@@ -109,38 +110,35 @@ for line in HGNC_file:
     genes_dict[ID]['wiki_bool'] = False 
     genes_dict[ID]['wikidatas'] = [] 
     for header, value in enumerate(values): 
-        if value != '': 
-            genes_dict[ID][headers[header]] = value 
+        if value != '': genes_dict[ID][headers[header]] = value 
 
 HGNC_file.close() 
 
-# number of wikidata items with no wikipedia page 
+# number of wikidata items with no Wikipedia page 
 wikidata_no_wiki, failed_wikidatas = 0, 0 
 
 # iterate through all wikidata results and append each to genes_dict 
 for result in results['results']['bindings']: 
     current_gene = {} 
-    for key in result: 
-        current_gene[key] = result[key]['value'] 
+    for key in result: current_gene[key] = result[key]['value'] 
 
     try: # check for the wikidata item corresponding to an approved HGNC gene 
         genes_dict[current_gene['HGNC_ID']]['wikidatas'].append(current_gene) 
 
-        try: # if this doesn't throw an error, the wikidata item has a wikipedia page 
+        try: # if this doesn't throw an error, the wikidata item has a Wikipedia page 
             current_gene['wd_gene_item_article_link'] 
             genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
 
-        except KeyError: # the wikidata item doesn't have a gene wikipedia 
-            try: # now check that the gene's protein also doesn't have a wikipedia page 
+        except KeyError: # the wikidata item doesn't have a gene Wikipedia 
+            try: # now check that the gene's protein also doesn't have a Wikipedia page 
                 current_gene['wd_protein_item_article_link'] 
                 genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
-            except KeyError: 
-                wikidata_no_wiki += 1 
+            except KeyError: wikidata_no_wiki += 1 
 
     except KeyError:          # if a wikidata's HGNC ID is not in the HGNC list of gene IDs, the 
         failed_wikidatas += 1 # wikidata item is often using a withdrawn gene ID, likely outdated  
 
-no_wikis = {} # make dictionary of genes with no wikipedia page 
+no_wikis = {} # make dictionary of genes with no Wikipedia page 
 for gene in genes_dict: 
     if genes_dict[gene]['wiki_bool'] == False: 
         no_wikis[gene] = genes_dict[gene] 
@@ -151,60 +149,55 @@ for gene in genes_dict:
 # Create file name with current year, then check for current year file 
 filename = 'characterized_symbols_' + str(datetime.now().year) + '.txt' 
 
-# Read in the list of gene symbols that appeared in at least one pubmed title after previous runs 
-# of this code. These genes will be skipped during the actual API retrieval, because the pubmed 
+# Read in the list of gene symbols that appeared in at least one PubMed title after previous runs 
+# of this code. These genes will be skipped during the actual API retrieval, because the PubMed 
 # rate limit means it takes at least 2 hours to retrieve queries for all genes. 
 characterized = [] 
-newYear = False
+newYear = False 
 try: 
     characterized_file = open(filename) 
-    for gene in characterized_file: 
-        characterized.append(gene.strip()) 
+    for gene in characterized_file: characterized.append(gene.strip()) 
     characterized_file.close() 
 except FileNotFoundError: 
     print('File listing characterized genes not found. The working directory is', os.getcwd(), 
           '\nIf you run the code, it will take several hours to retrieve the pubmed results for', 
           'all genes. Continue? [y/n]') 
 
-    # Get confirmation input before proceeding with full pubmed retrieval 
-    if input() == 'y': 
-        newYear = True 
+    # Get confirmation input before proceeding with full PubMed retrieval 
+    if input() == 'y': newYear = True 
 
 # ============================================================================= 
 # Retrieve titles of pubmed papers for each gene symbol 
 # =============================================================================
+start = datetime.now() 
+prev = datetime.now() 
 no_pubmeds = [] # list of gene HGNC IDs 
 no_pubmeds_dict = {} 
+# responses = {} 
 partial_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=' 
-prev = datetime.now() 
+headers = {'user_agent': 'DysoticBot/0.0 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)'} 
 
-# For each gene, if its not in the list of characterized symbols from last time, retrieve titles 
+# For each gene not in the list of characterized symbols, retrieve titles from PubMed 
 for gene in genes_dict: 
     if genes_dict[gene]['symbol'] not in characterized: 
         url = partial_url + genes_dict[gene]['symbol'] + '[title]' 
 
-        # wait for 0.34 seconds to pass, the rate limit of pubmed 
+        # Wait for the rate limit of PubMed API requests 
         delta = datetime.now() - prev 
-        while delta.seconds < 0.34: 
-            delta = datetime.now() - prev 
+        while delta.seconds < 0.334: delta = datetime.now() - prev 
 
         # get response of the list of pubmed titles with the gene symbol 
-        response = requests.get(url) 
+        response = requests.get(url, headers=headers).text 
         prev = datetime.now() 
 
-        # Add to list of genes with no pubmed papers, since the symbol is not in any titles 
-        if '<IdList>' not in response.text: 
+        # Add gene symbols not in the title of any PubMed papers to no_pubmeds 
+        if '<IdList>' not in response: 
             no_pubmeds.append(genes_dict[gene]['symbol']) 
             no_pubmeds_dict[gene] = genes_dict[gene] 
 
-            # TODO: check for pubmed papers with the gene's previous gene symbol 
+            # TODO: check for PubMed papers with the gene's previous gene symbol 
 
-# TODO: make a timestamp of how long full retrieval takes 
-#       try to speed up code by splitting for loop into 
-#       saving dictionary of responses[gene] = response.text every 0.34 seconds 
-#       for gene in responses: if idlist not in response add to no_pubmeds 
-
-
+time = datetime.now() - start # timestamp of how long full retrieval takes 
 
 # If running full PubMed retrieval of all genes, create the list of characterized gene symbols 
 if newYear == True: 
@@ -258,7 +251,7 @@ uncharacterized_file = open('uncharacterized_human_genes.txt', 'w', encoding='ut
 # file information 
 print('# There are', str(len(genes_dict)), 'human protein-coding genes retrieved from HGNC. This', 
       'file lists the', str(len(no_pubmeds)), 'genes that do not appear in the title of any', 
-      'papers on pubmed. This is to serve as an updating estimate of the current number of', 
+      'papers on PubMed. This is to serve as an updating estimate of the current number of', 
       'uncharacterized human protein-coding genes.\n# This file was written', 
       str(datetime.now().date()), '(year-month-day).\n', file = uncharacterized_file) 
 
@@ -285,9 +278,8 @@ def get_list(filename):
 
     symbols = [] 
     for gene in matrix: 
-        if gene != '': 
-            symbols.append(gene.split('\t')[0]) 
-    
+        if gene != '': symbols.append(gene.split('\t')[0]) 
+
     return symbols 
 
 shorter_symbols = get_list('\\uncharacterized_human_genes_07102024.txt') 
@@ -299,6 +291,5 @@ for i in range(len(longer_symbols)):
     if gene in shorter_symbols: 
         longer_symbols.remove(gene) 
         shorter_symbols.remove(gene) 
-    else: 
-        index += 1 
+    else: index += 1 
 
