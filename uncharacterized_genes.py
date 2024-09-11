@@ -38,6 +38,8 @@ import io
 import os 
 import requests # Allows sending HTTP requests to a web page 
 
+os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes') 
+
 # =============================================================================
 # Retrieving HGNC file of all human protein-coding genes 
 # from https://www.genenames.org/download/statistics-and-files/
@@ -156,11 +158,10 @@ try:
 except FileNotFoundError: 
     print('File listing characterized genes not found. The working directory is', os.getcwd(), 
           '\nIf you run the code, it will take several hours to retrieve the pubmed results for', 
-          'all genes. Continue? [y/n]') 
+          'all genes. Continue? [y/n]\n') 
 
     # Get confirmation input before proceeding with full PubMed retrieval 
     if input() == 'y': newYear = True 
-
 
 # =============================================================================
 # Retrieve genes with a previous gene symbol 
