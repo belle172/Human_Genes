@@ -2,7 +2,7 @@
 '''
 Created Dec 13 2023 
 Python 3.10 
-Jasper Bellefeuille - belle172@umn.edu 
+Jasper Bellefeuille - jasperbellefeuille@gmail.com 
 Repository: Human_Genes/uncharacterized_genes.py 
 
 This script outputs a file, uncharacterized_human_genes.txt, listing uncharacterized human 
@@ -40,16 +40,26 @@ import requests # Allows sending HTTP requests to a web page
 
 os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes') 
 
-# =============================================================================
+# ==================================================================================== 
 # Retrieving HGNC file of all human protein-coding genes 
-# from https://www.genenames.org/download/statistics-and-files/
-# ============================================================================= 
+# from https://www.genenames.org/download/statistics-and-files/ 
+# Documentation on database: https://ftp.ebi.ac.uk/pub/databases/genenames/README.txt 
+# ==================================================================================== 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
-	ftp = ftplib.FTP('ftp.ebi.ac.uk') 
-	ftp.login() 
-	ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') 
-	with io.open(readFile, 'wb') as data: 
-		ftp.retrbinary('RETR protein-coding_gene.txt', data.write) 
+    ftp = ftplib.FTP('ftp.ebi.ac.uk') 
+    ftp.login() 
+
+    # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
+    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') # path stated in README but not retrievable 
+
+    ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
+
+    # TODO: retrieve file from new Google Storage Bucket of HGNC download files 
+    # storage.googleapis.com path? 
+    # ftp.cwd('/public-download-files/hgnc/tsv/tsv/locus_groups') 
+
+    with io.open(readFile, 'wb') as data: 
+        ftp.retrbinary('RETR protein-coding_gene.txt', data.write) 
 
 downloadGeneFile() 
 
@@ -100,7 +110,7 @@ headers = HGNC_file.readline().strip().split('\t')
 for line in HGNC_file: # for each gene symbol from HGNC, add it to the data structures 
     values = line.strip().split('\t') 
 
-    # make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
+    # Make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
     ID = values[0].lstrip('HGNC:') 
     genes_dict[ID] = {} 
     genes_dict[ID]['wiki_bool'] = False 
@@ -110,10 +120,10 @@ for line in HGNC_file: # for each gene symbol from HGNC, add it to the data stru
 
 HGNC_file.close() 
 
-# number of wikidata items with no Wikipedia page 
+# Number of wikidata items with no Wikipedia page 
 wikidata_no_wiki, failed_wikidatas = 0, 0 
 
-# iterate through all wikidata results and append each to genes_dict 
+# Iterate through all wikidata results and append each to genes_dict 
 for result in results['results']['bindings']: 
     current_gene = {} 
     for key in result: current_gene[key] = result[key]['value'] 
@@ -125,7 +135,7 @@ for result in results['results']['bindings']:
             current_gene['wd_gene_item_article_link'] 
             genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
 
-        except KeyError: # the wikidata item doesn't have a gene Wikipedia, so 
+        except KeyError: # The wikidata item doesn't have a gene Wikipedia, so 
             try: # check that the gene's protein also doesn't have a Wikipedia page 
                 current_gene['wd_protein_item_article_link'] 
                 genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
