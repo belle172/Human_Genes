@@ -50,11 +50,11 @@ def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-codi
     ftp.login() 
 
     # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
-    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') # path stated in README but not retrievable 
+    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') # path stated in README, not retrievable 
 
     ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
 
-    # TODO: retrieve file from new Google Storage Bucket of HGNC download files 
+    # TODO: retrieve file from Google Storage Bucket of HGNC download files 
     # storage.googleapis.com path? 
     # ftp.cwd('/public-download-files/hgnc/tsv/tsv/locus_groups') 
 
@@ -167,7 +167,7 @@ try:
     characterized_file.close() 
 except FileNotFoundError: 
     print('File listing characterized genes not found. The working directory is', os.getcwd(), 
-          '\nIf you run the code, it will take several hours to retrieve the pubmed results for', 
+          '\nIf you run the code, it will take several hours to retrieve the PubMed results for', 
           'all genes. Continue? [y/n]\n') 
 
     # Get confirmation input before proceeding with full PubMed retrieval 
