@@ -170,8 +170,9 @@ except FileNotFoundError:
           '\nIf you run the code, it will take several hours to retrieve the PubMed results for', 
           'all genes. Continue? [y/n]\n') 
 
-    # Get confirmation input before proceeding with full PubMed retrieval 
-    if input() == 'y': newYear = True 
+    # Set NewYear True if it is January, else get confirmation input before proceeding 
+    if datetime.now().month == 1: newYear = True    # with full PubMed retrieval 
+    elif input() == 'y': newYear = True 
 
 # =============================================================================
 # Retrieve genes with a previous gene symbol 
