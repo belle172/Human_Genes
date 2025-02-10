@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
-Created Dec 13 2023 
-Python 3.10 
 Jasper Bellefeuille - jasperbellefeuille@gmail.com 
 Repository: Human_Genes/uncharacterized_genes.py 
+Created Dec 13 2023 
+Python 3.10 
 
 This script outputs a file, uncharacterized_human_genes.txt, listing uncharacterized human 
 protein-coding genes calculated based on data retrieved from HGNC, Wikipedia, and PubMed. 
