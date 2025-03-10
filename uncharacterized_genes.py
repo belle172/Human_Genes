@@ -249,8 +249,8 @@ process = ['locus_group', 'locus_type', 'status',                    # same for 
            'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup text and reorder 
 
            # fields omitted 
-           'ccds_id', 'date_approved_reserved', 'ena', 'iuphar', 'lncipedia', 'mane_select', 
-           'mgd_id', 'rgd_id', 'vega_id'] 
+           'ccds_id', 'date_approved_reserved', 'ena', 'mane_select', 'mgd_id', 
+           'rgd_id', 'vega_id'] 
 
 output_data = {} 
 for gene in no_pubmeds_dict: 
