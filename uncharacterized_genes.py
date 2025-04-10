@@ -246,11 +246,9 @@ if newYear == True:
 # =============================================================================
 process = ['locus_group', 'locus_type', 'status',                    # same for every gene 
            'agr', 'date_modified', 'gencc', 'location', 'wiki_bool', # duplicate of other data 
-           'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup text and reorder 
-
-           # fields omitted 
-           'ccds_id', 'date_approved_reserved', 'ena', 'mane_select', 'mgd_id', 
-           'rgd_id', 'vega_id'] 
+           'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup and reorder text 
+           'ccds_id', 'date_approved_reserved', 'ena',               # fields omitted
+           'mane_select', 'mgd_id', 'rgd_id', 'vega_id'] 
 
 output_data = {} 
 for gene in no_pubmeds_dict: 
