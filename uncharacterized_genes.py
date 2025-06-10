@@ -11,24 +11,23 @@ protein-coding genes calculated based on data retrieved from HGNC, Wikipedia, an
 retrieves from Wikipedia every english protein and gene wikidata item, and retrieves from PubMed 
 the titles of articles that contain a gene symbol. 
 
-Features of input data expected: 
+Features of input data expected and assumed: 
     1) Wikidata items whose HGNC ID is not in the data obtained from HGNC correspond to withdrawn 
-           HGNC records. 
+       HGNC records. 
     2) Genes with a Wikipedia page have a linked wikidata item. 
     3) Wikidata items with a Wikipedia page means the HGNC ID of that wikidata item is a gene with 
-           a Wikipedia page. 
+       a Wikipedia page. 
     4) A gene's gene symbol or previous gene symbol being in the title of any PubMed papers means 
-           there is research characterizing that gene. 
+       there is research characterizing that gene. 
     5) Once added to the list of gene symbols with PubMed papers, that gene will not go back to 
-           being uncharacterized. 
+       being uncharacterized. 
 
-Code for wikidata SQL query generated from https://w.wiki/8VAx, and some code taken from the 
-script for writing the Wikipedia list of human genes, which can be found at https://w.wiki/8aYR 
-
-To customize the Wikipedia user-agent: https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent 
-
-If you do not have the SPARQLWrapper installed, run: pip install sparqlwrapper 
-https://rdflib.github.io/sparqlwrapper/ 
+Outside sources and documentation: 
+    Wikidata SQL query generated from https://w.wiki/8VAx 
+    The script for writing the Wikipedia list of human genes, found at https://w.wiki/8aYR 
+    Customize the Wikipedia user-agent: https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent 
+    If you do not have the SPARQLWrapper installed, run: 'py -m pip install sparqlwrapper' 
+        https://rdflib.github.io/sparqlwrapper/ 
 ''' 
 
 from SPARQLWrapper import SPARQLWrapper, JSON 
@@ -48,11 +47,11 @@ os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes')
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
     ftp = ftplib.FTP('ftp.ebi.ac.uk') 
     ftp.login() 
-
-    # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
-    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') # path stated in README, not retrievable 
-
     ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
+
+    # path stated in README, not retrievable 
+    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') 
+    # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
 
     # TODO: retrieve file from Google Storage Bucket of HGNC download files 
     # storage.googleapis.com path? 
