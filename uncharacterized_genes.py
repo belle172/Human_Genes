@@ -164,14 +164,15 @@ try:
     characterized_file = open(filename) 
     for gene in characterized_file: characterized.append(gene.strip()) 
     characterized_file.close() 
-except FileNotFoundError: 
-    print('File listing characterized genes not found. The working directory is', os.getcwd(), 
-          '\nIf you run the code, it will take several hours to retrieve the PubMed results for', 
-          'all genes. Continue? [y/n]\n') 
-
-    # Set NewYear True if it is January, else get confirmation input before proceeding 
-    if datetime.now().month == 1: newYear = True    # with full PubMed retrieval 
-    elif input() == 'y': newYear = True 
+except FileNotFoundError: # Set NewYear True if it is January, else get confirmation input
+    if datetime.now().month == 1: 
+        newYear = True 
+        print('Calibrating list of all genes for the new year. PubMed retrieval will take several hours.\n') 
+    else: # get confirmation input before proceeding with full PubMed retrieval 
+        print('File listing characterized genes not found. The working directory is', os.getcwd(), 
+            '\nIf you run the code, it will take several hours to retrieve the PubMed results for', 
+            'all genes. Continue? [y/n]\n') 
+        if input() == 'y': newYear = True 
 
 # =============================================================================
 # Retrieve genes with a previous gene symbol 
@@ -311,34 +312,34 @@ def get_list(filename):
 
     return symbols 
 
-shorter_symbols = get_list('\\uncharacterized_human_genes.txt') 
-longer_symbols = get_list('\\uncharacterized_human_genes_07102024.txt') 
+# shorter_symbols = get_list('\\uncharacterized_human_genes.txt') 
+# longer_symbols = get_list('\\uncharacterized_human_genes_07102024.txt') 
 
-index = 0 
-for i in range(len(longer_symbols)): 
-    gene = longer_symbols[index] 
-    if gene in shorter_symbols: 
-        longer_symbols.remove(gene) 
-        shorter_symbols.remove(gene) 
-    else: index += 1 
+# index = 0 
+# for i in range(len(longer_symbols)): 
+#     gene = longer_symbols[index] 
+#     if gene in shorter_symbols: 
+#         longer_symbols.remove(gene) 
+#         shorter_symbols.remove(gene) 
+#     else: index += 1 
 
 
 # =============================================================================
 # Write file of genes removed from uncharacterized list due to version update 
 # =============================================================================
-update = False 
+# update = False 
 
-if update == True: 
-    update_file = open('update_0.1.txt', 'w', encoding='utf-8') 
+# if update == True: 
+#     update_file = open('update_0.1.txt', 'w', encoding='utf-8') 
     
-    # file information 
-    print('# This file lists the', str(len(longer_symbols)), 'genes excluded from the list of', 
-          'uncharacterized human protein-coding genes between code versions 0.0 -> 0.1. This', 
-          'version update removes genes whose previous gene symbol is in the title of any papers', 
-          'on PubMed. The uncharacterized_human_genes files from February 2024 to July 2024 are', 
-          'created from code version 0.0.\n# This file was written', str(datetime.now().date()), 
-          '(year-month-day).\n', file = update_file) 
+#     # file information 
+#     print('# This file lists the', str(len(longer_symbols)), 'genes excluded from the list of', 
+#           'uncharacterized human protein-coding genes between code versions 0.0 -> 0.1. This', 
+#           'version update removes genes whose previous gene symbol is in the title of any papers', 
+#           'on PubMed. The uncharacterized_human_genes files from February 2024 to July 2024 are', 
+#           'created from code version 0.0.\n# This file was written', str(datetime.now().date()), 
+#           '(year-month-day).\n', file = update_file) 
 
-    for gene in longer_symbols: print(gene, file = update_file) 
-    update_file.close() 
+#     for gene in longer_symbols: print(gene, file = update_file) 
+#     update_file.close() 
 
