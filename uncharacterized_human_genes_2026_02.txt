@@ -1,5 +1,5 @@
-# There are 19260 human protein-coding genes retrieved from HGNC. This file lists the 2468 genes that do not appear in the title of any papers on PubMed. This is to serve as an updating estimate of the current number of uncharacterized human protein-coding genes.
-# This file was written 2026-03-10 (year-month-day).
+# There are 19260 human protein-coding genes retrieved from HGNC. This file lists the 2483 genes that do not appear in the title of any papers on PubMed. This is to serve as an updating estimate of the current number of uncharacterized human protein-coding genes.
+# This file was written 2026-02-10 (year-month-day).
 
 Symbol: AADACL2	Name: arylacetamide deacetylase like 2	wikidatas: Q18055606|Q21131630	HGNC_id: 24427	location_sortable: 03q25.1	Aliases: MGC72001	gene_group: Arylacetamide deacetylase family	gene_group_id: 465	date_name_changed: 2016-05-26	entrez_id: 344752	ensembl_gene_id: ENSG00000197953	ucsc_id: uc003ezc.4	refseq_accession: NM_207365	uniprot_ids: Q6P093	pubmed_id: 25715734	
 
@@ -132,6 +132,8 @@ Symbol: ARMCX5	Name: armadillo repeat containing X-linked 5	wikidatas: Q18045793
 Symbol: ARPC5L	Name: actin related protein 2/3 complex subunit 5 like	wikidatas: Q18047124|Q21108215	HGNC_id: 23366	location_sortable: 09q33.3	Aliases: "MGC3038|ARC16-2"	prev_name: actin related protein 2/3 complex subunit 5-like	gene_group: Actin related protein 2/3 complex subunits	gene_group_id: 39	date_name_changed: 2016-06-09	entrez_id: 81873	ensembl_gene_id: ENSG00000136950	ucsc_id: uc004boz.2	refseq_accession: NM_030978	uniprot_ids: Q9BPX5	pubmed_id: "26655834|37382373"	
 
 Symbol: ASB18	Name: ankyrin repeat and SOCS box containing 18	wikidatas: Q18057648|Q21111619Q18057648|Q21151395	HGNC_id: 19770	location_sortable: 02q37.2	prev_name: ankyrin repeat and SOCS box-containing 18	gene_group: Ankyrin repeat domain containing	gene_group_id: 403	date_name_changed: 2011-01-25	entrez_id: 401036	ensembl_gene_id: ENSG00000182177	ucsc_id: uc010znh.2	refseq_accession: NM_212556	uniprot_ids: Q6ZVZ8	pubmed_id: 12076535	
+
+Symbol: ASCL5	Name: achaete-scute family bHLH transcription factor 5	wikidatas: Q18060425|Q21111620	HGNC_id: 33169	location_sortable: 01q32.1	Aliases: "bHLHa47|ASH-5|AmeloD"	prev_name: achaete-scute complex homolog 5 (Drosophila)	gene_group: Basic helix-loop-helix proteins	gene_group_id: 420	date_name_changed: 2013-10-17	entrez_id: 647219	ensembl_gene_id: ENSG00000232237	ucsc_id: uc057ogk.1	refseq_accession: NM_001270601	uniprot_ids: Q7RTU5	pubmed_id: "28123722|30426815"	omim_id: 620809	
 
 Symbol: ASPHD2	Name: aspartate beta-hydroxylase domain containing 2	wikidatas: Q18042948|Q21109494	HGNC_id: 30437	location_sortable: 22q12.1	Aliases: FLJ39838	entrez_id: 57168	ensembl_gene_id: ENSG00000128203	ucsc_id: uc003acg.3	refseq_accession: NM_020437	uniprot_ids: Q6ICH7	
 
@@ -341,11 +343,15 @@ Symbol: C10orf126	Name: chromosome 10 open reading frame 126	wikidatas: Q1805405
 
 Symbol: C11orf16	Name: chromosome 11 open reading frame 16	wikidatas: Q18042484|Q21110708	HGNC_id: 1169	location_sortable: 11p15.4	entrez_id: 56673	ensembl_gene_id: ENSG00000176029	ucsc_id: uc001mhb.5	refseq_accession: NM_020643	uniprot_ids: Q9NQ32	pubmed_id: 11528127	
 
+Symbol: C11orf42	Name: chromosome 11 open reading frame 42	wikidatas: Q18052457|Q21110663	HGNC_id: 28541	location_sortable: 11p15.4	Aliases: MGC34805	entrez_id: 160298	ensembl_gene_id: ENSG00000180878	ucsc_id: uc001mcj.4	refseq_accession: NM_173525	uniprot_ids: Q8N5U0	pubmed_id: 12477932	
+
 Symbol: C11orf65	Name: chromosome 11 open reading frame 65	wikidatas: Q18052455|Q21111868	HGNC_id: 28519	location_sortable: 11q22.3	Aliases: "MGC33948|MFI"	alias_name: mitochondrial fission factor interactor	entrez_id: 160140	ensembl_gene_id: ENSG00000166323	ucsc_id: uc058hby.1	refseq_accession: NM_152587	uniprot_ids: Q8NCR3	pubmed_id: 30059978	
 
 Symbol: C11orf68	Name: chromosome 11 open reading frame 68	wikidatas: Q18047215|Q21110703	HGNC_id: 28801	location_sortable: 11q13.1	Aliases: "P5326|BLES03"	alias_name: basophilic leukemia-expressed protein	entrez_id: 83638	ensembl_gene_id: ENSG00000175573	ucsc_id: uc009yqv.4	refseq_accession: NM_031450	uniprot_ids: Q9H3H3	pubmed_id: "16511166|25062915"	
 
 Symbol: C11orf71	Name: chromosome 11 open reading frame 71	wikidatas: Q18041043|Q21110635	HGNC_id: 25937	location_sortable: 11q23.2	Aliases: FLJ20010	entrez_id: 54494	ensembl_gene_id: ENSG00000180425	ucsc_id: uc284mzn.1	refseq_accession: NM_019021	uniprot_ids: Q6IPW1	pubmed_id: 12477932	
+
+Symbol: C11orf86	Name: chromosome 11 open reading frame 86	wikidatas: Q18053751|Q21110601	HGNC_id: 34442	location_sortable: 11q13.2	Aliases: "FLJ22675|FACI"	alias_name: fasting and CREB-H induced	entrez_id: 254439	ensembl_gene_id: ENSG00000173237	ucsc_id: uc010rpm.3	refseq_accession: NM_001136485	uniprot_ids: A6NJI1	pubmed_id: 35093589	
 
 Symbol: C11orf91	Name: chromosome 11 open reading frame 91	wikidatas: Q18063367|Q21110622	HGNC_id: 34444	location_sortable: 11p13	entrez_id: 100131378	ensembl_gene_id: ENSG00000205177	ucsc_id: uc001mur.3	refseq_accession: NM_001166692	uniprot_ids: Q3C1V1	
 
@@ -927,6 +933,8 @@ Symbol: DTWD2	Name: DTW domain containing 2	wikidatas: Q18054558|Q21110059Q18054
 
 Symbol: DUSP13A	Name: dual specificity phosphatase 13A	HGNC_id: 56772	location_sortable: 10q22.2	Aliases: "MDSP|BEDP"	alias_name: "muscle-restricted dual specificity phosphatase|branching-enzyme interacting dual specificity phosphatase|branching-enzyme interacting DSP"	gene_group: Atypical dual specificity phosphatases	gene_group_id: 896	entrez_id: 128854680	ensembl_gene_id: ENSG00000293543	refseq_accession: NM_001007271	uniprot_ids: Q6B8I1	pubmed_id: "15252030|29106959"	
 
+Symbol: DUSP29	Name: dual specificity phosphatase 29	wikidatas: Q18055230|Q21107183	HGNC_id: 23481	location_sortable: 10q22.2	Aliases: DUSP27	prev_symbol: DUPD1	prev_name: dual specificity phosphatase and pro isomerase domain containing 1	gene_group: Atypical dual specificity phosphatases	gene_group_id: 896	date_symbol_changed: 2020-06-01	date_name_changed: 2020-06-01	entrez_id: 338599	ensembl_gene_id: ENSG00000188716	ucsc_id: uc001jwq.1	refseq_accession: NM_001003892	uniprot_ids: Q68J44	omim_id: 618574	
+
 Symbol: DUX3	Name: double homeobox 3	HGNC_id: 3081	location_sortable: not on reference assembly	date_name_changed: 2010-07-20	entrez_id: 26582	refseq_accession: NM_012148	uniprot_ids: Q96PT4	pubmed_id: 11245978	omim_id: 611443	
 
 Symbol: DUX5	Name: double homeobox 5	wikidatas: Q18038305|Q21118058	HGNC_id: 3083	location_sortable: not on reference assembly	date_name_changed: 2010-07-20	entrez_id: 26581	refseq_accession: NM_012149	uniprot_ids: Q96PT3	pubmed_id: 11245978	omim_id: 611444	
@@ -948,6 +956,8 @@ Symbol: EDDM3B	Name: epididymal protein 3B	wikidatas: Q18045599|Q21110168	HGNC_i
 Symbol: EDDM13	Name: epididymal protein 13	HGNC_id: 53168	location_sortable: 19q13.43	entrez_id: 100506374	ensembl_gene_id: ENSG00000267710	refseq_accession: NM_001354658	uniprot_ids: A0A1B0GTR0	
 
 Symbol: EEF1AKMT1	Name: EEF1A lysine methyltransferase 1	wikidatas: Q18053474|Q21123022	HGNC_id: 27351	location_sortable: 13q12.11	alias_name: eukaryotic translation elongation factor 1 alpha lysine methyltransferase 1	prev_symbol: N6AMT2	prev_name: N-6 adenine-specific DNA methyltransferase 2 (putative)	gene_group: 7BS protein lysine methyltransferases	gene_group_id: 2056	date_symbol_changed: 2016-01-11	date_name_changed: 2017-02-21	entrez_id: 221143	ensembl_gene_id: ENSG00000150456	ucsc_id: uc009zzr.2	refseq_accession: NM_174928	uniprot_ids: Q8WVE0	pubmed_id: 26545399	omim_id: 617793	
+
+Symbol: EEF1AKMT4	Name: EEF1A lysine methyltransferase 4	HGNC_id: 53611	location_sortable: 03q27.1	gene_group: 7BS protein lysine methyltransferases	gene_group_id: 2056	entrez_id: 110599564	ensembl_gene_id: ENSG00000284753	refseq_accession: NM_032331	uniprot_ids: P0DPD7	pubmed_id: 28520920	
 
 Symbol: EEIG2	Name: EEIG family member 2	wikidatas: Q18054351|Q21114427	HGNC_id: 27637	location_sortable: 01p13.3	Aliases: "DKFZp779B126|SYM-3B"	alias_name: sym-3 homolog B (C. elegans)	prev_symbol: FAM102B	prev_name: "family with sequence similarity 102, member B|family with sequence similarity 102 member B"	gene_group: NT-C2 domain containing	gene_group_id: 1537	date_symbol_changed: 2022-09-01	date_name_changed: 2022-09-01	entrez_id: 284611	ensembl_gene_id: ENSG00000162636	ucsc_id: uc010ouy.3	refseq_accession: NM_001010883	uniprot_ids: Q5T8I3	
 
@@ -2197,6 +2207,8 @@ Symbol: MRPL45	Name: mitochondrial ribosomal protein L45	wikidatas: Q18047557|Q2
 
 Symbol: MRPL52	Name: mitochondrial ribosomal protein L52	wikidatas: Q18049497|Q21120540	HGNC_id: 16655	location_sortable: 14q11.2	Aliases: mL52	gene_group: "Mitochondrial ribosomal proteins|Large subunit mitochondrial ribosomal proteins"	gene_group_id: "646|1994"	entrez_id: 122704	ensembl_gene_id: ENSG00000172590	ucsc_id: uc001wgx.5	refseq_accession: NM_180982	uniprot_ids: Q86TS9	pubmed_id: "11551941|11943462"	omim_id: 611856	
 
+Symbol: MRPL54	Name: mitochondrial ribosomal protein L54	wikidatas: Q18049246|Q21120538Q18049246|Q21141631	HGNC_id: 16685	location_sortable: 19p13.3	Aliases: mL54	gene_group: "Mitochondrial ribosomal proteins|Large subunit mitochondrial ribosomal proteins"	gene_group_id: "646|1994"	entrez_id: 116541	ensembl_gene_id: ENSG00000183617	ucsc_id: uc002lyq.5	refseq_accession: NM_172251	uniprot_ids: Q6P161	pubmed_id: 11551941	omim_id: 611858	
+
 Symbol: MRPL57	Name: mitochondrial ribosomal protein L57	wikidatas: Q18045918|Q21135049	HGNC_id: 14514	location_sortable: 13q12.11	Aliases: mL63	prev_symbol: MRP63	prev_name: mitochondrial ribosomal protein 63	gene_group: "Mitochondrial ribosomal proteins|Large subunit mitochondrial ribosomal proteins"	gene_group_id: "646|1994"	date_symbol_changed: 2014-02-10	date_name_changed: 2014-02-10	entrez_id: 78988	ensembl_gene_id: ENSG00000173141	refseq_accession: NM_024026	uniprot_ids: Q9BQC6	pubmed_id: 23908630	omim_id: 611997	
 
 Symbol: MRPS11	Name: mitochondrial ribosomal protein S11	wikidatas: Q18045819|Q21125107	HGNC_id: 14050	location_sortable: 15q25.3	Aliases: "FLJ23406|HCC-2|FLJ22512|uS11m"	alias_name: cervical cancer proto-oncogene 2	gene_group: "Mitochondrial ribosomal proteins|Small subunit mitochondrial ribosomal proteins"	gene_group_id: "646|1996"	entrez_id: 64963	ensembl_gene_id: ENSG00000181991	ucsc_id: uc002bml.4	refseq_accession: NM_022839	uniprot_ids: P82912	pubmed_id: 11402041	omim_id: 611977	
@@ -2785,6 +2797,8 @@ Symbol: OR6Y1	Name: olfactory receptor family 6 subfamily Y member 1	wikidatas: 
 
 Symbol: OR7A5	Name: olfactory receptor family 7 subfamily A member 5	wikidatas: Q18038334|Q21124118	HGNC_id: 8368	location_sortable: 19p13.1	Aliases: HTPCR2	prev_name: "olfactory receptor, family 7, subfamily A, member 5 pseudogene|olfactory receptor, family 7, subfamily A, member 5"	gene_group: Olfactory receptors, family 7	gene_group_id: 154	date_name_changed: 2015-12-09	entrez_id: 26659	ensembl_gene_id: ENSG00000188269	ucsc_id: uc010xoa.2	refseq_accession: NM_017506	uniprot_ids: Q15622	horde_id: OR7A5	
 
+Symbol: OR7A10	Name: olfactory receptor family 7 subfamily A member 10	wikidatas: Q18056979|Q21124105	HGNC_id: 8356	location_sortable: 19p13.12	prev_name: olfactory receptor, family 7, subfamily A, member 10	gene_group: Olfactory receptors, family 7	gene_group_id: 154	date_name_changed: 2015-12-09	entrez_id: 390892	ensembl_gene_id: ENSG00000127515	ucsc_id: uc002mzx.1	refseq_accession: NM_001005190	uniprot_ids: O76100	horde_id: OR7A10	
+
 Symbol: OR7D2	Name: olfactory receptor family 7 subfamily D member 2	wikidatas: Q18052544|Q21124234	HGNC_id: 8378	location_sortable: 19p13.2	Aliases: "OR19-4|HTPCRH03|FLJ38149"	prev_name: olfactory receptor, family 7, subfamily D, member 2	gene_group: Olfactory receptors, family 7	gene_group_id: 154	date_name_changed: 2015-12-09	entrez_id: 162998	ensembl_gene_id: ENSG00000188000	ucsc_id: uc002mkz.1	refseq_accession: NM_001386112	uniprot_ids: Q96RA2	horde_id: OR7D2	
 
 Symbol: OR7E24	Name: olfactory receptor family 7 subfamily E member 24	wikidatas: Q18038329|Q21133493	HGNC_id: 8396	location_sortable: 19p13.2	Aliases: "OR19-8|HSHT2|OR7E24Q"	prev_symbol: OR7E24P	prev_name: "olfactory receptor, family 7, subfamily E, member 24 pseudogene|olfactory receptor, family 7, subfamily E, member 24"	gene_group: Olfactory receptors, family 7	gene_group_id: 154	date_symbol_changed: 2004-03-05	date_name_changed: 2015-12-09	entrez_id: 26648	ensembl_gene_id: ENSG00000237521	ucsc_id: uc002mlb.2	refseq_accession: NM_001079935	uniprot_ids: Q6IFN5	pubmed_id: 9268701	horde_id: OR7E24	
@@ -3335,6 +3349,8 @@ Symbol: PRR36	Name: proline rich 36	wikidatas: Q20969902|Q21133948	HGNC_id: 2617
 
 Symbol: PRRC2C	Name: proline rich coiled-coil 2C	wikidatas: Q18037003|Q21123327Q18037003|Q21140389	HGNC_id: 24903	location_sortable: 01q24.3	Aliases: "KIAA1096|XTP2"	prev_symbol: "BAT2D1|BAT2L2"	prev_name: "BAT2 domain containing 1|HLA-B associated transcript 2-like 2|proline-rich coiled-coil 2C"	date_symbol_changed: 2010-12-09	date_name_changed: 2016-01-25	entrez_id: 23215	ensembl_gene_id: ENSG00000117523	ucsc_id: uc010pmg.3	refseq_accession: NM_015172	uniprot_ids: Q9Y520	pubmed_id: "10470851|12443540"	omim_id: 617373	
 
+Symbol: PRRG1	Name: proline rich and Gla domain 1	wikidatas: Q18030818|Q21125351	HGNC_id: 9469	location_sortable: Xp21.1	Aliases: PRGP1	prev_name: proline-rich Gla (G-carboxyglutamic acid) polypeptide 1	gene_group: Proline rich and Gla domain containing	gene_group_id: 1249	date_name_changed: 2016-04-27	entrez_id: 5638	ensembl_gene_id: ENSG00000130962	ucsc_id: uc004ddo.3	refseq_accession: NM_000950	uniprot_ids: O14668	pubmed_id: 9256434	lsdb: Global Variome shared LOVD|https://databases.lovd.nl/shared/genes/PRRG1	omim_id: 300935	
+
 Symbol: PRRG3	Name: proline rich and Gla domain 3	wikidatas: Q18045972|Q21125397	HGNC_id: 30798	location_sortable: Xq28	Aliases: TMG3	prev_name: proline rich Gla (G-carboxyglutamic acid) 3 (transmembrane)	gene_group: Proline rich and Gla domain containing	gene_group_id: 1249	date_name_changed: 2016-04-27	entrez_id: 79057	ensembl_gene_id: ENSG00000130032	ucsc_id: uc004few.3	refseq_accession: NM_024082	uniprot_ids: Q9BZD7	pubmed_id: 11171957	lsdb: Global Variome shared LOVD|https://databases.lovd.nl/shared/genes/PRRG3	omim_id: 300685	
 
 Symbol: PRRT1B	Name: proline rich transmembrane protein 1B	HGNC_id: 53642	location_sortable: 09q34.13	Aliases: "IFITMD8|DSPD2"	alias_name: dispanin subfamily D member 2	gene_group: Dispanins	gene_group_id: 1600	entrez_id: 642515	ensembl_gene_id: ENSG00000283526	refseq_accession: NM_001365666	uniprot_ids: A0A1B0GWB2	
@@ -3507,6 +3523,8 @@ Symbol: RPUSD2	Name: RNA pseudouridine synthase domain containing 2	wikidatas: Q
 
 Symbol: RPUSD3	Name: RNA pseudouridine synthase D3	wikidatas: Q18054466|Q21118535Q18054466|Q21150247	HGNC_id: 28437	location_sortable: 03p25.3	Aliases: MGC29784	prev_name: RNA pseudouridylate synthase domain containing 3	gene_group: "RNA pseudouridylate synthase domain containing|Pseudouridine synthases"	gene_group_id: "727|1665"	date_name_changed: 2018-09-12	entrez_id: 285367	ensembl_gene_id: ENSG00000156990	ucsc_id: uc011atk.3	refseq_accession: NM_173659	uniprot_ids: Q6P087	pubmed_id: 27974379	omim_id: 617759	
 
+Symbol: RSAD1	Name: radical S-adenosyl methionine domain containing 1	wikidatas: Q18041754|Q21122729Q18041754|Q21141602	HGNC_id: 25634	location_sortable: 17q21.33	Aliases: "FLJ11164|HemW"	gene_group: Radical S-adenosylmethionine domain containing	gene_group_id: 2036	entrez_id: 55316	ensembl_gene_id: ENSG00000136444	ucsc_id: uc002iqw.2	refseq_accession: NM_018346	uniprot_ids: Q9HA92	pubmed_id: 29282292	omim_id: 620590	
+
 Symbol: RSBN1L	Name: round spermatid basic protein 1 like	wikidatas: Q18053552|Q21122724	HGNC_id: 24765	location_sortable: 07q11.23	Aliases: "FLJ42526|FLJ45813|MGC71764"	prev_name: round spermatid basic protein 1-like	date_name_changed: 2016-03-15	entrez_id: 222194	ensembl_gene_id: ENSG00000187257	ucsc_id: uc010ldt.2	refseq_accession: NM_198467	uniprot_ids: Q6PCB5	pubmed_id: 12477932	
 
 Symbol: RSKR	Name: ribosomal protein S6 kinase related	wikidatas: Q20969924|Q21133586	HGNC_id: 26314	location_sortable: 17q11.2	Aliases: "FLJ25006|SgK494"	entrez_id: 124923	ensembl_gene_id: ENSG00000167524	refseq_accession: NM_144610	uniprot_ids: Q96LW2	pubmed_id: 23524293	iuphar: objectId:1531	
@@ -3584,6 +3602,8 @@ Symbol: SDR39U1	Name: short chain dehydrogenase/reductase family 39U member 1	wi
 Symbol: SDR42E2	Name: short chain dehydrogenase/reductase family 42E, member 2	HGNC_id: 35414	location_sortable: 16p12.1	gene_group: Short chain dehydrogenase/reductase superfamily	gene_group_id: 743	entrez_id: 100288072	ensembl_gene_id: ENSG00000183921	ucsc_id: uc059ryf.1	refseq_accession: NM_001365288	uniprot_ids: A6NKP2	pubmed_id: 19027726	enzyme_id: 1.1.1.-	
 
 Symbol: SEC11C	Name: SEC11 homolog C, signal peptidase complex subunit	wikidatas: Q18048420|Q21126301	HGNC_id: 23400	location_sortable: 18q21.32	Aliases: "SPC21|SPCS4C"	alias_name: signal peptidase complex 21	prev_symbol: SEC11L3	prev_name: "SEC11-like 3 (S. cerevisiae)|SEC11 homolog C (S. cerevisiae)"	date_symbol_changed: 2006-11-07	date_name_changed: 2015-07-23	entrez_id: 90701	ensembl_gene_id: ENSG00000166562	ucsc_id: uc002lht.4	refseq_accession: NM_033280	uniprot_ids: Q9BY50	pubmed_id: "2188978|23995782"	
+
+Symbol: SEC14L5	Name: SEC14 like lipid binding 5	wikidatas: Q18034610|Q21124398	HGNC_id: 29032	location_sortable: 16p13.3	Aliases: "KIAA0420|PRELID4B"	prev_name: "SEC14-like 5 (S. cerevisiae)|SEC14-like lipid binding 5"	gene_group: "SEC14 family|PRELI domain containing"	gene_group_id: "1063|1295"	date_name_changed: 2016-01-18	entrez_id: 9717	ensembl_gene_id: ENSG00000103184	ucsc_id: uc002cye.3	refseq_accession: NM_014692	uniprot_ids: O43304	pubmed_id: "9455477|17428729"	omim_id: 619412	
 
 Symbol: SEC22A	Name: SEC22 homolog A, vesicle trafficking protein	wikidatas: Q18038533|Q21110061Q18038533|Q21139278	HGNC_id: 20260	location_sortable: 03q21.1	prev_symbol: SEC22L2	prev_name: "SEC22 vesicle trafficking protein-like 2 (S. cerevisiae)|SEC22 vesicle trafficking protein homolog A (S. cerevisiae)"	gene_group: SNAREs	gene_group_id: 1124	date_symbol_changed: 2006-04-25	date_name_changed: 2015-08-05	entrez_id: 26984	ensembl_gene_id: ENSG00000121542	ucsc_id: uc003ege.4	refseq_accession: NM_012430	uniprot_ids: Q96IW7	pubmed_id: "9094723|9501016"	omim_id: 612442	
 
@@ -4189,6 +4209,8 @@ Symbol: TMEM254	Name: transmembrane protein 254	wikidatas: Q18046635|Q21136319	H
 
 Symbol: TMEM256	Name: transmembrane protein 256	wikidatas: Q18053763|Q21136308	HGNC_id: 28618	location_sortable: 17p13.1	Aliases: MGC40107	prev_symbol: C17orf61	prev_name: chromosome 17 open reading frame 61	date_symbol_changed: 2012-12-03	date_name_changed: 2012-12-03	entrez_id: 254863	ensembl_gene_id: ENSG00000205544	ucsc_id: uc002ggs.4	refseq_accession: NM_152766	uniprot_ids: Q8N2U0	pubmed_id: 12477932	omim_id: 617779	
 
+Symbol: TMEM259	Name: transmembrane protein 259	wikidatas: Q18048479|Q21133190Q18048479|Q21141880	HGNC_id: 17039	location_sortable: 19p13.3	Aliases: "MGC4022|ASBABP1|MBRL"	alias_name: "membralin|aspecific BCL2 ARE-binding protein 1"	prev_symbol: C19orf6	prev_name: chromosome 19 open reading frame 6	date_symbol_changed: 2013-02-06	date_name_changed: 2013-02-06	entrez_id: 91304	ensembl_gene_id: ENSG00000182087	ucsc_id: uc002lqs.2	refseq_accession: NM_033420	uniprot_ids: Q4ZIN3	pubmed_id: "12638133|16084606|32738194"	omim_id: 611011	
+
 Symbol: TMEM262	Name: transmembrane protein 262	wikidatas: Q18063169|Q21136280	HGNC_id: 49389	location_sortable: 11q13.1	entrez_id: 100130348	ensembl_gene_id: ENSG00000187066	refseq_accession: NM_001282448	uniprot_ids: E9PQX1	
 
 Symbol: TMEM265	Name: transmembrane protein 265	wikidatas: Q20800728|Q21136267	HGNC_id: 51241	location_sortable: 16p11.2	entrez_id: 100862671	ensembl_gene_id: ENSG00000281991	refseq_accession: NM_001256829	uniprot_ids: A0A087WTH1	
@@ -4307,6 +4329,8 @@ Symbol: TTC16	Name: tetratricopeptide repeat domain 16	wikidatas: Q18052385|Q211
 
 Symbol: TTC23L	Name: tetratricopeptide repeat domain 23 like	wikidatas: Q18052243|Q21126975	HGNC_id: 26355	location_sortable: 05p13.2	Aliases: FLJ25439	prev_name: tetratricopeptide repeat domain 23-like	date_name_changed: 2016-01-29	entrez_id: 153657	ensembl_gene_id: ENSG00000205838	ucsc_id: uc003jiu.4	refseq_accession: NM_144725	uniprot_ids: Q6PF05	pubmed_id: 25751302	omim_id: 616344	
 
+Symbol: TTC27	Name: tetratricopeptide repeat domain 27	wikidatas: Q18041910|Q21123503	HGNC_id: 25986	location_sortable: 02p22.3	Aliases: FLJ20272	gene_group: "Tetratricopeptide repeat domain containing|MicroRNA protein coding host genes"	gene_group_id: "769|1691"	entrez_id: 55622	ensembl_gene_id: ENSG00000018699	ucsc_id: uc002rom.4	refseq_accession: NM_017735	uniprot_ids: Q6P3X3	
+
 Symbol: TTC31	Name: tetratricopeptide repeat domain 31	wikidatas: Q18045673|Q21123497	HGNC_id: 25759	location_sortable: 02p13.1	Aliases: FLJ12788	gene_group: Tetratricopeptide repeat domain containing	gene_group_id: 769	entrez_id: 64427	ensembl_gene_id: ENSG00000115282	ucsc_id: uc002slt.3	refseq_accession: NM_022492	uniprot_ids: Q49AM3	pubmed_id: 21790010	
 
 Symbol: TTC33	Name: tetratricopeptide repeat domain 33	wikidatas: Q18037265|Q21127378	HGNC_id: 29959	location_sortable: 05p13.1	Aliases: OSRF	alias_name: osmosis responsive factor	gene_group: Tetratricopeptide repeat domain containing	gene_group_id: 769	entrez_id: 23548	ensembl_gene_id: ENSG00000113638	ucsc_id: uc003jma.4	refseq_accession: NM_012382	uniprot_ids: Q6PID6	pubmed_id: 12477932	
@@ -4330,6 +4354,8 @@ Symbol: TYW1B	Name: tRNA-yW synthesizing protein 1 homolog B	wikidatas: Q1805851
 Symbol: UBALD1	Name: UBA like domain containing 1	wikidatas: Q18049569|Q21122283	HGNC_id: 29576	location_sortable: 16p13.3	prev_symbol: FAM100A	prev_name: "family with sequence similarity 100, member A|UBA-like domain containing 1"	date_symbol_changed: 2012-11-30	date_name_changed: 2016-01-27	entrez_id: 124402	ensembl_gene_id: ENSG00000153443	ucsc_id: uc002cwx.2	refseq_accession: NM_145253	uniprot_ids: Q8TB05	
 
 Symbol: UBALD2	Name: UBA like domain containing 2	wikidatas: Q18054231|Q21122282	HGNC_id: 28438	location_sortable: 17q25.1	Aliases: MGC29814	prev_symbol: FAM100B	prev_name: "family with sequence similarity 100, member B|UBA-like domain containing 2"	date_symbol_changed: 2012-11-30	date_name_changed: 2016-01-27	entrez_id: 283991	ensembl_gene_id: ENSG00000185262	ucsc_id: uc010wsy.2	refseq_accession: NM_182565	uniprot_ids: Q8IYN6	
+
+Symbol: UBE2D4	Name: ubiquitin conjugating enzyme E2 D4	wikidatas: Q18040459|Q21131939	HGNC_id: 21647	location_sortable: 07p13	Aliases: HBUCE1	prev_name: ubiquitin-conjugating enzyme E2D 4 (putative)	gene_group: Ubiquitin conjugating enzymes E2	gene_group_id: 102	date_name_changed: 2024-07-09	entrez_id: 51619	ensembl_gene_id: ENSG00000078967	ucsc_id: uc003tja.3	refseq_accession: NM_015983	uniprot_ids: Q9Y2X8	pubmed_id: "12690205|20061386"	
 
 Symbol: UBE2L5	Name: ubiquitin conjugating enzyme E2 L5	HGNC_id: 13477	location_sortable: 13q12.3	prev_symbol: UBE2L5P	prev_name: "ubiquitin conjugating enzyme E2L 5 (pseudogene)|ubiquitin conjugating enzyme E2 L5, pseudogene"	gene_group: Ubiquitin conjugating enzymes E2	gene_group_id: 102	date_symbol_changed: 2017-09-28	date_name_changed: 2017-09-28	entrez_id: 171222	ensembl_gene_id: ENSG00000236444	refseq_accession: NM_001355247	uniprot_ids: A0A1B0GUS4	
 
@@ -4823,6 +4849,8 @@ Symbol: ZNF735	Name: zinc finger protein 735	wikidatas: Q18061901|Q21126768	HGNC
 
 Symbol: ZNF736	Name: zinc finger protein 736	wikidatas: Q18061574|Q21134867	HGNC_id: 32467	location_sortable: 07q11.21	gene_group: Zinc fingers C2H2-type	gene_group_id: 28	entrez_id: 728927	ensembl_gene_id: ENSG00000234444	ucsc_id: uc003tsz.5	refseq_accession: NM_001170905	uniprot_ids: B4DX44	
 
+Symbol: ZNF737	Name: zinc finger protein 737	wikidatas: Q18063051|Q21174099	HGNC_id: 32468	location_sortable: 19p12	Aliases: ZNF102	gene_group: Zinc fingers C2H2-type	gene_group_id: 28	entrez_id: 100129842	ensembl_gene_id: ENSG00000237440	ucsc_id: uc002npa.4	refseq_accession: NM_145289	uniprot_ids: O75373	omim_id: 603984	
+
 Symbol: ZNF738	Name: zinc finger protein 738	HGNC_id: 32469	location_sortable: 19p12	entrez_id: 148203	ensembl_gene_id: ENSG00000172687	ucsc_id: uc002nps.5	refseq_accession: NM_001355237	uniprot_ids: Q8NE65	
 
 Symbol: ZNF747	Name: zinc finger protein 747	wikidatas: Q18045898|Q21111584	HGNC_id: 28350	location_sortable: 16p11.2	Aliases: MGC2474	gene_group: Zinc fingers C2H2-type	gene_group_id: 28	entrez_id: 65988	ensembl_gene_id: ENSG00000169955	ucsc_id: uc059tfj.1	refseq_accession: NM_023931	uniprot_ids: Q9BV97	pubmed_id: 10493829	
@@ -4936,4 +4964,6 @@ Symbol: ZSCAN32	Name: zinc finger and SCAN domain containing 32	wikidatas: Q1804
 Symbol: ZSWIM2	Name: zinc finger SWIM-type containing 2	wikidatas: Q18051987|Q21124795	HGNC_id: 30990	location_sortable: 02q32.1	Aliases: "MGC33890|ZZZ2|MEX"	gene_group: "Ring finger proteins|Zinc fingers SWIM-type|Zinc fingers ZZ-type"	gene_group_id: "58|90|91"	date_name_changed: 2016-02-15	entrez_id: 151112	ensembl_gene_id: ENSG00000163012	ucsc_id: uc002upu.2	refseq_accession: NM_182521	uniprot_ids: Q8NEG5	pubmed_id: 16522193	
 
 Symbol: ZSWIM9	Name: zinc finger SWIM-type containing 9	wikidatas: Q18056117|Q21108451	HGNC_id: 34495	location_sortable: 19q13.33	Aliases: LOC374920	prev_symbol: C19orf68	prev_name: chromosome 19 open reading frame 68	gene_group: Zinc fingers SWIM-type	gene_group_id: 90	date_symbol_changed: 2017-07-21	date_name_changed: 2017-07-21	entrez_id: 374920	ensembl_gene_id: ENSG00000185453	ucsc_id: uc032iar.1	refseq_accession: NM_199341	uniprot_ids: Q86XI8	pubmed_id: 37161653	
+
+Symbol: ZXDB	Name: zinc finger X-linked duplicated B	wikidatas: Q18052416|Q21124788	HGNC_id: 13199	location_sortable: Xp11.21	Aliases: ZNF905	gene_group: Zinc fingers C2H2-type	gene_group_id: 28	date_name_changed: 2018-04-26	entrez_id: 158586	ensembl_gene_id: ENSG00000198455	ucsc_id: uc004dvd.4	refseq_accession: NM_007157	uniprot_ids: P98169	pubmed_id: 8268913	omim_id: 300236	
 
