@@ -60,7 +60,7 @@ def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-codi
     with io.open(readFile, 'wb') as data: 
         ftp.retrbinary('RETR protein-coding_gene.txt', data.write) 
 
-downloadGeneFile() 
+# downloadGeneFile() 
 
 # =============================================================================
 # Call Wikipedia API with SQL query retrieving all wikidata gene and protein 
