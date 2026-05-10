@@ -43,19 +43,22 @@ os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes')
 # Retrieving HGNC file of all human protein-coding genes 
 # from https://www.genenames.org/download/statistics-and-files/ 
 # Documentation on database: https://ftp.ebi.ac.uk/pub/databases/genenames/README.txt 
+# TODO: retrieve file from Google Storage Bucket of HGNC download files 
+# API path: https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt 
+# Google Documentation: https://docs.cloud.google.com/storage/docs/access-public-data#storage-download-public-object-python 
 # ==================================================================================== 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
-    ftp = ftplib.FTP('ftp.ebi.ac.uk') 
+    ftp = ftplib.FTP('https://storage.googleapis.com') 
     ftp.login() 
-    ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
 
+    # storage.googleapis.com path? 
+    ftp.cwd('/public-download-files/hgnc/tsv/tsv/locus_groups') 
+
+    # ftp = ftplib.FTP('ftp.ebi.ac.uk') 
+    # ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
     # path stated in README, not retrievable 
     # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') 
     # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
-
-    # TODO: retrieve file from Google Storage Bucket of HGNC download files 
-    # storage.googleapis.com path? 
-    # ftp.cwd('/public-download-files/hgnc/tsv/tsv/locus_groups') 
 
     with io.open(readFile, 'wb') as data: 
         ftp.retrbinary('RETR protein-coding_gene.txt', data.write) 
