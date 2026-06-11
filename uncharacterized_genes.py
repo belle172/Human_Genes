@@ -48,7 +48,7 @@ os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes')
 # Google Documentation: https://docs.cloud.google.com/storage/docs/access-public-data#storage-download-public-object-python 
 # ==================================================================================== 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
-    ftp = ftplib.FTP('https://storage.googleapis.com') 
+    ftp = ftplib.FTP('storage.googleapis.com') 
     ftp.login() 
 
     # storage.googleapis.com path? 
@@ -105,7 +105,6 @@ query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?prote
 results = get_results('https://query.wikidata.org/sparql', query) # includes duplicates 
 
 genes_dict = {} # Create dictionary of genes with their data from HGNC and Wikipedia 
-
 HGNC_file = open('protein-coding_gene.txt', encoding='utf-8') 
 headers = HGNC_file.readline().strip().split('\t') 
 
@@ -114,7 +113,7 @@ for line in HGNC_file: # for each gene symbol from HGNC, add it to the data stru
 
     # Make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
     ID = values[0].lstrip('HGNC:') 
-    genes_dict[ID] = {} 
+    genes_dict[ID]              = {} 
     genes_dict[ID]['wiki_bool'] = False 
     genes_dict[ID]['wikidatas'] = [] 
     for header, value in enumerate(values): 
@@ -155,11 +154,10 @@ for result in results['results']['bindings']:
 # =============================================================================
 # Retrieve file of characterized genes 
 # ============================================================================= 
-# Create file name with current year, then check for current year file 
-filename = 'characterized_symbols_' + str(datetime.now().year) + '.txt' 
+filename = 'characterized_symbols_' + str(datetime.now().year) + '.txt' # File name with current year, check if already created 
 
-# Read in the list of gene symbols that appeared in at least one PubMed title after previous runs 
-# of this code. These genes will be skipped during the actual API retrieval, because the PubMed 
+# Read the list of known characterized gene symbols from previous runs 
+# of this code. These genes will be skipped during the API retrieval. The PubMed 
 # rate limit means it takes at least 2 hours to retrieve queries for all genes. 
 characterized = [] 
 newYear = False 
@@ -193,8 +191,8 @@ for gene in genes_dict:
 # Retrieve titles of PubMed papers for each gene symbol 
 # =============================================================================
 start = datetime.now() 
-prev = datetime.now() 
-no_pubmeds = [] # list of gene HGNC IDs 
+prev  = datetime.now() 
+no_pubmeds      = [] # list of gene HGNC IDs 
 no_pubmeds_dict = {} 
 partial_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=' 
 headers = {'user_agent': 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)'} 
@@ -204,8 +202,7 @@ for gene in genes_dict:
     if genes_dict[gene]['symbol'] not in characterized: 
         url = partial_url + genes_dict[gene]['symbol'] + '[title]' 
 
-        # Wait for the rate limit of PubMed API requests 
-        delta = datetime.now() - prev 
+        delta = datetime.now() - prev # Wait for the rate limit of PubMed API requests 
         while delta.seconds < 0.334: delta = datetime.now() - prev 
 
         # Get response of the list of PubMed titles with the gene symbol 
