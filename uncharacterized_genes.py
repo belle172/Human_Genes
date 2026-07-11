@@ -48,7 +48,7 @@ os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes')
 # Google Documentation: https://docs.cloud.google.com/storage/docs/access-public-data#storage-download-public-object-python 
 # ==================================================================================== 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
-    ftp = ftplib.FTP('storage.googleapis.com') 
+    ftp = ftplib.FTP('https://storage.googleapis.com') 
     ftp.login() 
 
     # storage.googleapis.com path? 
@@ -74,8 +74,8 @@ def get_results(endpoint_url, query):
 
     # example: user_agent = 'CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org)' 
     user_agent = 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)' 
-
-    sparql = SPARQLWrapper(endpoint_url, agent=user_agent)
+    os.environ['SSL_CERT_FILE'] = 'C:\ProgramData\miniconda3\Lib\site-packages\certifi\cacert.pem'
+    sparql = SPARQLWrapper(endpoint_url, agent=user_agent) 
     sparql.setQuery(query)
     sparql.setReturnFormat(JSON) 
     return sparql.query().convert() 
