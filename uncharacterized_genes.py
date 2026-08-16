@@ -3,7 +3,7 @@
 Jasper Bellefeuille - jasperbellefeuille@gmail.com 
 Repository: Human_Genes/uncharacterized_genes.py 
 Created Dec 13 2023 
-Python 3.10 
+Python 3.10 # TODO: update 
 
 This script outputs a file, uncharacterized_human_genes.txt, listing uncharacterized human 
 protein-coding genes calculated based on data retrieved from HGNC, Wikipedia, and PubMed. 
@@ -17,69 +17,51 @@ Features of input data expected and assumed:
     2) Genes with a Wikipedia page have a linked wikidata item. 
     3) Wikidata items with a Wikipedia page means the HGNC ID of that wikidata item is a gene with 
        a Wikipedia page. 
-    4) A gene's gene symbol or previous gene symbol being in the title of any PubMed papers means 
+    4) A gene's HGNC gene symbol or previous gene symbol being in the title of any PubMed papers means 
        there is research characterizing that gene. 
-    5) Once added to the list of gene symbols with PubMed papers, that gene will not go back to 
+    5) Once added to the list of gene symbols with PubMed papers, genes will not go back to 
        being uncharacterized. 
 
 Outside sources and documentation: 
-    Wikidata SQL query generated from https://w.wiki/8VAx 
-    The script for writing the Wikipedia list of human genes, found at https://w.wiki/8aYR 
-    Customize the Wikipedia user-agent: https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent 
-    If you do not have the SPARQLWrapper installed, run: 'py -m pip install sparqlwrapper' 
-        https://rdflib.github.io/sparqlwrapper/ 
+    Wikipedia list of human genes [https://w.wiki/8aYR] 
+    Wikipedia user-agent [https://www.mediawiki.org/wiki/Manual:Pywikibot/User-agent] 
+    SPARQLWrapper [https://rdflib.github.io/sparqlwrapper/] 
 ''' 
 
-from SPARQLWrapper import SPARQLWrapper, JSON 
-from datetime import datetime 
-import ftplib 
-import io 
+from   datetime import datetime 
+from   google.cloud import storage 
 import os 
 import requests # Allows sending HTTP requests to a web page 
+from   SPARQLWrapper import SPARQLWrapper, JSON # run 'py -m pip install sparqlwrapper' if you do not have the SPARQLWrapper installed 
 
 os.chdir('C:\\Users\\jaspe\\GitHub\\Human_Genes') 
 
 # ==================================================================================== 
-# Retrieving HGNC file of all human protein-coding genes 
-# from https://www.genenames.org/download/statistics-and-files/ 
-# Documentation on database: https://ftp.ebi.ac.uk/pub/databases/genenames/README.txt 
-# TODO: retrieve file from Google Storage Bucket of HGNC download files 
-# API path: https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt 
+# Retrieving HGNC file of all human protein-coding genes [https://www.genenames.org/download/statistics-and-files/] 
+# from Google Storage Bucket [https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt] 
 # Google Documentation: https://docs.cloud.google.com/storage/docs/access-public-data#storage-download-public-object-python 
 # ==================================================================================== 
 def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-coding_gene.txt' 
-    ftp = ftplib.FTP('https://storage.googleapis.com') 
-    ftp.login() 
-
-    # storage.googleapis.com path? 
-    ftp.cwd('/public-download-files/hgnc/tsv/tsv/locus_groups') 
-
-    # ftp = ftplib.FTP('ftp.ebi.ac.uk') 
-    # ftp.cwd('/pub/databases/genenames/out_of_date_hgnc/tsv/locus_groups') # navigatable path 
-    # path stated in README, not retrievable 
-    # ftp.cwd('/pub/databases/genenames/hgnc/tsv/locus_groups') 
-    # ftp.cwd('/pub/databases/genenames/new/tsv/locus_groups') # original path, deprecated 
-
-    with io.open(readFile, 'wb') as data: 
-        ftp.retrbinary('RETR protein-coding_gene.txt', data.write) 
-
-# downloadGeneFile() 
+    storage_client = storage.Client.create_anonymous_client() 
+    bucket = storage_client.bucket('public-download-files') 
+    blob = bucket.blob('hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt') 
+    blob.download_to_filename('protein-coding_gene.txt') 
+downloadGeneFile() 
 
 # =============================================================================
 # Call Wikipedia API with SQL query retrieving all wikidata gene and protein 
 # items matching a HGNC protein-coding gene 
 # ============================================================================= 
-def get_results(endpoint_url, query): 
-    #   string endpoint_url: the API endpoint with data to retrieve 
-
+def get_results(endpoint_url, query): # string endpoint_url: the API endpoint with data to retrieve 
     # example: user_agent = 'CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org)' 
     user_agent = 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)' 
     os.environ['SSL_CERT_FILE'] = 'C:\ProgramData\miniconda3\Lib\site-packages\certifi\cacert.pem'
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent) 
-    sparql.setQuery(query)
+    sparql.setQuery(query) 
     sparql.setReturnFormat(JSON) 
     return sparql.query().convert() 
 
+# Wikidata SQL query generated from https://w.wiki/8VAx 
 query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?proteinLabel ?wd_gene_item_article_link ?wd_protein_item_article_link
  {
    ?gene wdt:P31 wd:Q7187 .
@@ -104,25 +86,21 @@ query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?prote
 # Returned lists of headers and values for all wikidata human protein and gene items 
 results = get_results('https://query.wikidata.org/sparql', query) # includes duplicates 
 
+# Make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
 genes_dict = {} # Create dictionary of genes with their data from HGNC and Wikipedia 
 HGNC_file = open('protein-coding_gene.txt', encoding='utf-8') 
 headers = HGNC_file.readline().strip().split('\t') 
-
 for line in HGNC_file: # for each gene symbol from HGNC, add it to the data structures 
     values = line.strip().split('\t') 
-
-    # Make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
     ID = values[0].lstrip('HGNC:') 
-    genes_dict[ID]              = {} 
+    genes_dict[ID] = {} 
     genes_dict[ID]['wiki_bool'] = False 
     genes_dict[ID]['wikidatas'] = [] 
     for header, value in enumerate(values): 
         if value != '': genes_dict[ID][headers[header]] = value 
-
 HGNC_file.close() 
 
-# Number of wikidata items with no Wikipedia page 
-wikidata_no_wiki, failed_wikidatas = 0, 0 
+wikidata_no_wiki, failed_wikidatas = 0, 0 # Number of wikidata items with no Wikipedia page 
 
 # Iterate through all wikidata results and append each to genes_dict 
 for result in results['results']['bindings']: 
@@ -135,38 +113,31 @@ for result in results['results']['bindings']:
         try: # Check if the gene's wikidata item has a Wikipedia page 
             current_gene['wd_gene_item_article_link'] 
             genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
-
         except KeyError: # The wikidata item doesn't have a gene Wikipedia, so 
             try: # check that the gene's protein also doesn't have a Wikipedia page 
                 current_gene['wd_protein_item_article_link'] 
                 genes_dict[current_gene['HGNC_ID']]['wiki_bool'] = True 
             except KeyError: wikidata_no_wiki += 1 
 
-    except KeyError:          # if a wikidata's HGNC ID is not in the HGNC list of gene IDs, the 
-        failed_wikidatas += 1 # wikidata item is often using a withdrawn gene ID, likely outdated  
+    except KeyError: failed_wikidatas += 1 # If a wikidata's HGNC ID is not in the HGNC list, the wikidata item is often using a withdrawn, outdated gene ID
 
 # no_wikis = {} # make dictionary of genes with no Wikipedia page 
 # for gene in genes_dict: 
 #     if genes_dict[gene]['wiki_bool'] == False: 
 #         no_wikis[gene] = genes_dict[gene] 
 
-
 # =============================================================================
-# Retrieve file of characterized genes 
+# Retrieve file of characterized gene symbols 
 # ============================================================================= 
 filename = 'characterized_symbols_' + str(datetime.now().year) + '.txt' # File name with current year, check if already created 
-
-# Read the list of known characterized gene symbols from previous runs 
-# of this code. These genes will be skipped during the API retrieval. The PubMed 
-# rate limit means it takes at least 2 hours to retrieve queries for all genes. 
 characterized = [] 
 newYear = False 
-try: 
+try: # Read the list of known characterized gene symbols from previous runs of this code
     characterized_file = open(filename) 
-    for gene in characterized_file: characterized.append(gene.strip()) 
+    for gene in characterized_file: characterized.append(gene.strip()) # These genes will be skipped during the API retrieval.  
     characterized_file.close() 
-except FileNotFoundError: # Set NewYear True if it is January, else get confirmation input
-    if datetime.now().month == 1: 
+except FileNotFoundError: # Set NewYear True if it is January, else get confirmation input 
+    if datetime.now().month == 1: # The PubMed rate limit means it takes at least 2 hours to retrieve queries for all genes.
         newYear = True 
         print('Calibrating list of all genes for the new year. PubMed retrieval will take several hours.\n') 
     else: # get confirmation input before proceeding with full PubMed retrieval 
@@ -178,56 +149,48 @@ except FileNotFoundError: # Set NewYear True if it is January, else get confirma
 # =============================================================================
 # Retrieve genes with a previous gene symbol 
 # =============================================================================
-changed = {} # make dictionary 
-for gene in genes_dict: 
-    if genes_dict[gene]['symbol'] not in characterized: 
-        try: 
-            genes_dict[gene]['prev_symbol'] 
-            changed[gene] = genes_dict[gene] 
-        except KeyError: 1 
-
+# changed = {} # make dictionary 
+# for gene in genes_dict: 
+#     if genes_dict[gene]['symbol'] not in characterized: 
+#         try: 
+#             genes_dict[gene]['prev_symbol'] 
+#             changed[gene] = genes_dict[gene] 
+#         except KeyError: 1 
 
 # ============================================================================= 
 # Retrieve titles of PubMed papers for each gene symbol 
 # =============================================================================
-start = datetime.now() 
-prev  = datetime.now() 
+partial_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=' 
+
+# Get response of the list of PubMed titles with the gene symbol 
+def delayed_request(prev, url): 
+    user_agent = {'user_agent': 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)'} 
+    delta = datetime.now() - prev # Wait for the rate limit of PubMed API requests 
+    while delta.seconds < 0.334: delta = datetime.now() - prev 
+    return datetime.now(), requests.get(url, headers=user_agent).text
+
+start, prev = datetime.now(), datetime.now() 
 no_pubmeds      = [] # list of gene HGNC IDs 
 no_pubmeds_dict = {} 
-partial_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=' 
-headers = {'user_agent': 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)'} 
-
-# For each gene not in the list of characterized symbols, retrieve titles from PubMed 
-for gene in genes_dict: 
+for gene in genes_dict: # For each gene not in the list of characterized symbols, retrieve titles from PubMed 
     if genes_dict[gene]['symbol'] not in characterized: 
         url = partial_url + genes_dict[gene]['symbol'] + '[title]' 
+        prev, response = delayed_request(prev, url) 
 
-        delta = datetime.now() - prev # Wait for the rate limit of PubMed API requests 
-        while delta.seconds < 0.334: delta = datetime.now() - prev 
-
-        # Get response of the list of PubMed titles with the gene symbol 
-        response = requests.get(url, headers=headers).text 
-        prev = datetime.now() 
-
-        # Add gene symbols not in the title of any PubMed papers to no_pubmeds 
-        if '<IdList>' not in response: 
+        if '<IdList>' not in response: # Add gene symbols not in the title of any PubMed papers to no_pubmeds 
             try: # Check if the gene has a previous gene symbol 
-                url = partial_url + genes_dict[gene]['prev_symbol'] + '[title]' 
 
-                # Check for PubMed papers with the gene's previous gene symbol 
-                delta = datetime.now() - prev # Wait for the rate limit of PubMed API requests 
-                while delta.seconds < 0.334: delta = datetime.now() - prev 
-                response = requests.get(url, headers=headers).text 
-                prev = datetime.now() 
+                # Check for PubMed papers with the gene's most recent previous gene symbol 
+                url = partial_url + genes_dict[gene]['prev_symbol'].split('|')[-1].strip('"') + '[title]' 
+                prev, response = delayed_request(prev, url) 
 
                 # If the gene's previous symbol is also not in any papers, add to the list of 
                 if '<IdList>' not in response: # uncharacterized genes 
                     no_pubmeds.append(genes_dict[gene]['symbol']) 
                     no_pubmeds_dict[gene] = genes_dict[gene] 
 
-            # Add the gene to the list of uncharacterized genes, because it doesn't have a 
-            except KeyError: # previous gene symbol 
-                no_pubmeds.append(genes_dict[gene]['symbol']) 
+            except KeyError: # Gene doesn't have a previous gene symbol 
+                no_pubmeds.append(genes_dict[gene]['symbol']) # Add to the list of uncharacterized genes
                 no_pubmeds_dict[gene] = genes_dict[gene] 
 
 time = datetime.now() - start # Timestamp of how long full retrieval takes 
@@ -240,40 +203,40 @@ if newYear == True:
             print(genes_dict[gene]['symbol'], file=characterized_file) 
     characterized_file.close() 
 
-
 # =============================================================================
 # Text processing the data of uncharacterized genes for output file 
 # =============================================================================
-process = ['locus_group', 'locus_type', 'status',                    # same for every gene 
-           'agr', 'date_modified', 'gencc', 'location', 'wiki_bool', # duplicate of other data 
-           'alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup and reorder text 
-           'ccds_id', 'date_approved_reserved', 'ena',               # fields omitted
-           'mane_select', 'mgd_id', 'rgd_id', 'vega_id'] 
+def process_dict(): 
+    process = ['alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup and reorder text 
+               'locus_group', 'locus_type', 'status',                    # same for every gene 
+               'agr', 'date_modified', 'gencc', 'wiki_bool',             # duplicate of other data 
+               'ccds_id', 'date_approved_reserved', 'ena',               # fields omitted
+               'mane_select', 'mgd_id', 'vega_id'] 
 
-output_data = {} 
-for gene in no_pubmeds_dict: 
-    output_data[gene] = {} # initialize gene with garuanteed data items 
-    output_data[gene]['Symbol'] = genes_dict[gene]['symbol'] 
-    output_data[gene]['Name'] = genes_dict[gene]['name'] 
+    output_data = {} 
+    for gene in no_pubmeds_dict: # Genes with data items 
+        output_data[gene] = {} 
+        output_data[gene]['Symbol'] = genes_dict[gene]['symbol'] 
+        output_data[gene]['Name'] = genes_dict[gene]['name'] 
+        output_data[gene]['HGNC_id'] = genes_dict[gene]['hgnc_id'].lstrip('HGNC:') # hgnc_id field all start with 'HGNC:' 
 
-    for key in genes_dict[gene]: 
-        if key == 'alias_symbol': # change the header name from alias_symbol to Aliases 
-            output_data[gene]['Aliases'] = genes_dict[gene]['alias_symbol'] 
+        for key in genes_dict[gene]: 
+            if key == 'alias_symbol': # change header name from alias_symbol to Aliases 
+                output_data[gene]['Aliases'] = genes_dict[gene]['alias_symbol'].lstrip('"').rstrip('"') 
 
-        if key == 'hgnc_id': # process hgnc_id field, which all start with 'HGNC:' 
-            output_data[gene]['HGNC_id'] = genes_dict[gene][key].lstrip('HGNC:') 
+            if (key == 'wikidatas') and (genes_dict[gene][key] != []): 
+                items = '' 
+                for item in genes_dict[gene][key]: # Shorten wikidata item IDs from full URLs 
+                    gene_item = item['gene'].split('entity/')[1] 
+                    protein_item = item['protein'].split('entity/')[1] 
+                    items += gene_item + '|' + protein_item 
+                output_data[gene][key] = items 
 
-        # Get the wikidata item IDs instead of full urls 
-        if (key == 'wikidatas') and (genes_dict[gene][key] != []): 
-            items = '' 
-            for item in genes_dict[gene][key]: 
-                gene_item = item['gene'].split('entity/')[1] 
-                protein_item = item['protein'].split('entity/')[1] 
-                items += gene_item + '|' + protein_item 
-            output_data[gene][key] = items 
+            if key not in process: # copy all remaining keys and corresponding data 
+                output_data[gene][key] = genes_dict[gene][key].lstrip('"').rstrip('"') 
+    return output_data 
 
-        if key not in process: # copy all remaining keys and corresponding data 
-            output_data[gene][key] = genes_dict[gene][key] 
+output_data = process_dict() 
 
 # write output file 
 uncharacterized_file = open('uncharacterized_human_genes.txt', 'w', encoding='utf-8') 
@@ -293,53 +256,49 @@ for gene in output_data:
 
 uncharacterized_file.close() 
 
-
 # =============================================================================
 # FILE COMPARATOR 
 # ============================================================================= 
 def get_list(filename): 
-    file = open(os.getcwd() + filename, encoding='utf-8') 
     matrix = '' 
+    file = open(os.getcwd() + filename, encoding='utf-8') 
     for line in file: matrix += line 
     file.close() 
     matrix = matrix.split('\n') 
-    matrix.pop(0) 
-    matrix.pop(0) 
-
+    matrix = matrix[2:] # skip header lines 
     symbols = [] 
     for gene in matrix: 
         if gene != '': symbols.append(gene.split('\t')[0]) 
-
     return symbols 
 
-# shorter_symbols = get_list('\\uncharacterized_human_genes.txt') 
-# longer_symbols = get_list('\\uncharacterized_human_genes_07102024.txt') 
+shorter_symbols = get_list('\\uncharacterized_human_genes.txt') 
+longer_symbols = get_list('\\uncharacterized_human_genes_2026_07.txt') 
 
-# index = 0 
-# for i in range(len(longer_symbols)): 
-#     gene = longer_symbols[index] 
-#     if gene in shorter_symbols: 
-#         longer_symbols.remove(gene) 
-#         shorter_symbols.remove(gene) 
-#     else: index += 1 
+index = 0 
+for i in range(len(longer_symbols)): 
+    gene = longer_symbols[index] 
+    if gene in shorter_symbols: 
+        longer_symbols.remove(gene) 
+        shorter_symbols.remove(gene) 
+    else: index += 1 
 
 
 # =============================================================================
 # Write file of genes removed from uncharacterized list due to version update 
 # =============================================================================
-# update = False 
+update = False 
 
-# if update == True: 
-#     update_file = open('update_0.1.txt', 'w', encoding='utf-8') 
+if update == True: 
+    update_file = open('update_0.1.txt', 'w', encoding='utf-8') 
     
-#     # file information 
-#     print('# This file lists the', str(len(longer_symbols)), 'genes excluded from the list of', 
-#           'uncharacterized human protein-coding genes between code versions 0.0 -> 0.1. This', 
-#           'version update removes genes whose previous gene symbol is in the title of any papers', 
-#           'on PubMed. The uncharacterized_human_genes files from February 2024 to July 2024 are', 
-#           'created from code version 0.0.\n# This file was written', str(datetime.now().date()), 
-#           '(year-month-day).\n', file = update_file) 
+    # file information 
+    print('# This file lists the', str(len(longer_symbols)), 'genes excluded from the list of', 
+          'uncharacterized human protein-coding genes between code versions 0.0 -> 0.1. This', 
+          'version update removes genes whose previous gene symbol is in the title of any papers', 
+          'on PubMed. The uncharacterized_human_genes files from February 2024 to July 2024 are', 
+          'created from code version 0.0.\n# This file was written', str(datetime.now().date()), 
+          '(year-month-day).\n', file = update_file) 
 
-#     for gene in longer_symbols: print(gene, file = update_file) 
-#     update_file.close() 
+    for gene in longer_symbols: print(gene, file = update_file) 
+    update_file.close() 
 
