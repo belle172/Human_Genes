@@ -46,7 +46,7 @@ def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-codi
     bucket = storage_client.bucket('public-download-files') 
     blob = bucket.blob('hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt') 
     blob.download_to_filename('protein-coding_gene.txt') 
-downloadGeneFile() 
+downloadGeneFile() # TODO: Organize output file alphabetically by gene symbol, as 'protein-coding_gene.txt' is not in a clear order, see symbol ATOSA
 
 # =============================================================================
 # Call Wikipedia API with SQL query retrieving all wikidata gene and protein 
@@ -54,12 +54,13 @@ downloadGeneFile()
 # ============================================================================= 
 def get_results(endpoint_url, query): # string endpoint_url: the API endpoint with data to retrieve 
     # example: user_agent = 'CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org)' 
-    user_agent = 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)' 
-    os.environ['SSL_CERT_FILE'] = 'C:\ProgramData\miniconda3\Lib\site-packages\certifi\cacert.pem'
+    user_agent = "DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)" 
+    os.environ["SSL_CERT_FILE"] = "C:\\ProgramData\\miniconda3\\Lib\\site-packages\\certifi\\cacert.pem"
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent) 
     sparql.setQuery(query) 
     sparql.setReturnFormat(JSON) 
-    return sparql.query().convert() 
+    result = sparql.query().convert() 
+    return result 
 
 # Wikidata SQL query generated from https://w.wiki/8VAx 
 query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?proteinLabel ?wd_gene_item_article_link ?wd_protein_item_article_link
@@ -84,7 +85,7 @@ query = '''SELECT DISTINCT ?gene ?geneLabel ?HGNC_ID ?HGNCsymbol ?protein ?prote
  }''' 
 
 # Returned lists of headers and values for all wikidata human protein and gene items 
-results = get_results('https://query.wikidata.org/sparql', query) # includes duplicates 
+results = get_results("https://query.wikidata.org/sparql", query) # includes duplicates 
 
 # Make dictionary genes_dict where the HGNC ID of each gene is the dictionary's keys 
 genes_dict = {} # Create dictionary of genes with their data from HGNC and Wikipedia 
@@ -167,7 +168,7 @@ def delayed_request(prev, url):
     user_agent = {'user_agent': 'DysoticBot/0.1 (https://en.wikipedia.org/wiki/User:Dysotic; https://github.com/belle172/Human_Genes)'} 
     delta = datetime.now() - prev # Wait for the rate limit of PubMed API requests 
     while delta.seconds < 0.334: delta = datetime.now() - prev 
-    return datetime.now(), requests.get(url, headers=user_agent).text
+    return datetime.now(), requests.get(url, headers=user_agent).text 
 
 start, prev = datetime.now(), datetime.now() 
 no_pubmeds      = [] # list of gene HGNC IDs 
@@ -195,8 +196,7 @@ for gene in genes_dict: # For each gene not in the list of characterized symbols
 
 time = datetime.now() - start # Timestamp of how long full retrieval takes 
 
-# If running full PubMed retrieval of all genes, create the list of characterized gene symbols 
-if newYear == True: 
+if newYear == True: # When running full PubMed retrieval of all genes, create the list of characterized gene symbols 
     characterized_file = open(filename, 'w', encoding='utf-8') 
     for gene in genes_dict: 
         if genes_dict[gene]['symbol'] not in no_pubmeds: 
@@ -207,23 +207,27 @@ if newYear == True:
 # Text processing the data of uncharacterized genes for output file 
 # =============================================================================
 def process_dict(): 
-    process = ['alias_symbol', 'hgnc_id', 'name', 'symbol', 'wikidatas', # cleanup and reorder text 
-               'locus_group', 'locus_type', 'status',                    # same for every gene 
-               'agr', 'date_modified', 'gencc', 'wiki_bool',             # duplicate of other data 
-               'ccds_id', 'date_approved_reserved', 'ena',               # fields omitted
-               'mane_select', 'mgd_id', 'vega_id'] 
+    process = ['alias_symbol', 'hgnc_id', 'name', 'rgd_id', 'symbol', 'wikidatas',  # Cleanup and reorder text 
+               'locus_group', 'locus_type', 'status',                               # Same for every gene 
+               'agr', 'date_modified', 'gencc', 'wiki_bool',                        # Duplicate of other data 
+               'ccds_id', 'date_approved_reserved', 'ena', 'mane_select',           # Fields omitted
+               'mgd_id', 'vega_id'] 
 
     output_data = {} 
     for gene in no_pubmeds_dict: # Genes with data items 
-        output_data[gene] = {} 
+        output_data[gene] = {} # Initialize first fields
         output_data[gene]['Symbol'] = genes_dict[gene]['symbol'] 
         output_data[gene]['Name'] = genes_dict[gene]['name'] 
-        output_data[gene]['HGNC_id'] = genes_dict[gene]['hgnc_id'].lstrip('HGNC:') # hgnc_id field all start with 'HGNC:' 
+        output_data[gene]['HGNC_id'] = genes_dict[gene]['hgnc_id'].lstrip('HGNC:') # hgnc_id field starts with 'HGNC:' 
 
         for key in genes_dict[gene]: 
             if key == 'alias_symbol': # change header name from alias_symbol to Aliases 
                 output_data[gene]['Aliases'] = genes_dict[gene]['alias_symbol'].lstrip('"').rstrip('"') 
 
+            if key not in process: # Copy all remaining keys and corresponding data 
+                output_data[gene][key] = genes_dict[gene][key].lstrip('"').rstrip('"') 
+
+            # Fields to process and move to the end 
             if (key == 'wikidatas') and (genes_dict[gene][key] != []): 
                 items = '' 
                 for item in genes_dict[gene][key]: # Shorten wikidata item IDs from full URLs 
@@ -232,8 +236,9 @@ def process_dict():
                     items += gene_item + '|' + protein_item 
                 output_data[gene][key] = items 
 
-            if key not in process: # copy all remaining keys and corresponding data 
-                output_data[gene][key] = genes_dict[gene][key].lstrip('"').rstrip('"') 
+            if key == 'rgd_id': # rgd_id field starts with 'RGD:' 
+                output_data[gene]['RGD_id'] = genes_dict[gene]['rgd_id'].lstrip('RGD:') 
+
     return output_data 
 
 output_data = process_dict() 
