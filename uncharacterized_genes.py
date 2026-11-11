@@ -46,7 +46,7 @@ def downloadGeneFile(readFile = 'protein-coding_gene.txt'): # Save 'protein-codi
     bucket = storage_client.bucket('public-download-files') 
     blob = bucket.blob('hgnc/tsv/tsv/locus_groups/protein-coding_gene.txt') 
     blob.download_to_filename('protein-coding_gene.txt') 
-downloadGeneFile() # TODO: Organize output file alphabetically by gene symbol, as 'protein-coding_gene.txt' is not in a clear order, see symbol ATOSA
+downloadGeneFile() 
 
 # =============================================================================
 # Call Wikipedia API with SQL query retrieving all wikidata gene and protein 
@@ -59,7 +59,7 @@ def get_results(endpoint_url, query): # string endpoint_url: the API endpoint wi
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent) 
     sparql.setQuery(query) 
     sparql.setReturnFormat(JSON) 
-    result = sparql.query().convert() 
+    result = sparql.query().convert() # TODO: make an exception catch, sometimes gets JSONDecodeError 
     return result 
 
 # Wikidata SQL query generated from https://w.wiki/8VAx 
@@ -147,16 +147,6 @@ except FileNotFoundError: # Set NewYear True if it is January, else get confirma
             'all genes. Continue? [y/n]\n') 
         if input() == 'y': newYear = True 
 
-# =============================================================================
-# Retrieve genes with a previous gene symbol 
-# =============================================================================
-# changed = {} # make dictionary 
-# for gene in genes_dict: 
-#     if genes_dict[gene]['symbol'] not in characterized: 
-#         try: 
-#             genes_dict[gene]['prev_symbol'] 
-#             changed[gene] = genes_dict[gene] 
-#         except KeyError: 1 
 
 # ============================================================================= 
 # Retrieve titles of PubMed papers for each gene symbol 
@@ -173,21 +163,18 @@ def delayed_request(prev, url):
 start, prev = datetime.now(), datetime.now() 
 no_pubmeds      = [] # list of gene HGNC IDs 
 no_pubmeds_dict = {} 
-for gene in genes_dict: # For each gene not in the list of characterized symbols, retrieve titles from PubMed 
+for gene in genes_dict: # For each gene in the list of symbols, retrieve titles from PubMed 
     if genes_dict[gene]['symbol'] not in characterized: 
         url = partial_url + genes_dict[gene]['symbol'] + '[title]' 
         prev, response = delayed_request(prev, url) 
 
         if '<IdList>' not in response: # Add gene symbols not in the title of any PubMed papers to no_pubmeds 
-            try: # Check if the gene has a previous gene symbol 
-
-                # Check for PubMed papers with the gene's most recent previous gene symbol 
+            try: # Check for PubMed papers with the gene's most recent previous symbol, if the gene has a previous gene symbol 
                 url = partial_url + genes_dict[gene]['prev_symbol'].split('|')[-1].strip('"') + '[title]' 
                 prev, response = delayed_request(prev, url) 
 
-                # If the gene's previous symbol is also not in any papers, add to the list of 
-                if '<IdList>' not in response: # uncharacterized genes 
-                    no_pubmeds.append(genes_dict[gene]['symbol']) 
+                if '<IdList>' not in response: # If the gene's previous symbol is also not in any papers, 
+                    no_pubmeds.append(genes_dict[gene]['symbol']) # add to the list of uncharacterized genes 
                     no_pubmeds_dict[gene] = genes_dict[gene] 
 
             except KeyError: # Gene doesn't have a previous gene symbol 
@@ -243,10 +230,10 @@ def process_dict():
 
 output_data = process_dict() 
 
-# write output file 
+# Write output file information 
+# TODO: Organize output file alphabetically by gene symbol, as 'protein-coding_gene.txt' is not in a clear order, so then neither is 'uncharacterized_human_genes.txt'
 uncharacterized_file = open('uncharacterized_human_genes.txt', 'w', encoding='utf-8') 
 
-# file information 
 print('# There are', str(len(genes_dict)), 'human protein-coding genes retrieved from HGNC. This', 
       'file lists the', str(len(no_pubmeds)), 'genes that do not appear in the title of any', 
       'papers on PubMed. This is to serve as an updating estimate of the current number of', 
@@ -261,9 +248,12 @@ for gene in output_data:
 
 uncharacterized_file.close() 
 
+
 # =============================================================================
-# FILE COMPARATOR 
+# Optional computing data 
 # ============================================================================= 
+
+# FILE COMPARATOR 
 def get_list(filename): 
     matrix = '' 
     file = open(os.getcwd() + filename, encoding='utf-8') 
@@ -288,15 +278,12 @@ for i in range(len(longer_symbols)):
     else: index += 1 
 
 
-# =============================================================================
 # Write file of genes removed from uncharacterized list due to version update 
-# =============================================================================
 update = False 
 
-if update == True: 
+if update == True: # file information 
     update_file = open('update_0.1.txt', 'w', encoding='utf-8') 
-    
-    # file information 
+
     print('# This file lists the', str(len(longer_symbols)), 'genes excluded from the list of', 
           'uncharacterized human protein-coding genes between code versions 0.0 -> 0.1. This', 
           'version update removes genes whose previous gene symbol is in the title of any papers', 
@@ -306,4 +293,14 @@ if update == True:
 
     for gene in longer_symbols: print(gene, file = update_file) 
     update_file.close() 
+
+
+# Retrieve genes with a previous gene symbol 
+# changed = {} # make dictionary 
+# for gene in genes_dict: 
+#     if genes_dict[gene]['symbol'] not in characterized: 
+#         try: 
+#             genes_dict[gene]['prev_symbol'] 
+#             changed[gene] = genes_dict[gene] 
+#         except KeyError: 1 
 
